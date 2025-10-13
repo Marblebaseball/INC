@@ -1,0 +1,1943 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025年度INC問題</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --light-gray: #dcedc8; /* A slightly darker complementary green */
+            --dark-gray: #333;
+            --menu-background: #2c3e50;
+            --site-bg-color: #e8f5e9; /* A slightly darker green */
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            background-color: var(--site-bg-color);
+            color: var(--dark-gray);
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /* --- Hamburger Menu --- */
+        .menu-button {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1001;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 15px; /* 変更点: 10pxから15pxに変更し、ボタンのクリック範囲を拡大しました */
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .menu-button__icon,
+        .menu-button__icon::before,
+        .menu-button__icon::after {
+            display: block;
+            background-color: var(--dark-gray);
+            position: absolute;
+            height: 2px;
+            width: 24px;
+            transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .menu-button__icon::before { content: ''; margin-top: -8px; }
+        .menu-button__icon::after { content: ''; margin-top: 8px; }
+        .menu-open .menu-button__icon { background: rgba(0,0,0,0); }
+        .menu-open .menu-button__icon::before { margin-top: 0px; transform: rotate(405deg); }
+        .menu-open .menu-button__icon::after { margin-top: 0px; transform: rotate(-405deg); }
+        
+        .main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 280px;
+            z-index: 1000;
+            background-color: var(--menu-background);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+        .main-nav.is-open { transform: translateX(0); }
+
+        .nav-options {
+            padding: 15px 20px;
+            background-color: rgba(0,0,0,0.2);
+            margin-top: 50px;
+        }
+        .nav-options label {
+            color: white;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .nav-options input { margin-right: 10px; }
+
+        .nav-list {
+            list-style: none;
+            padding: 10px 0 20px 0;
+            margin: 0;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        .nav-list a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            transition: background-color 0.2s;
+        }
+        .nav-list a:hover { background-color: var(--primary-color); }
+        
+        .submenu-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .submenu-wrapper a { flex-grow: 1; }
+        .submenu-toggle {
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            padding: 12px 20px;
+            font-size: 1em;
+            transition: transform 0.2s;
+        }
+        .submenu-toggle[aria-expanded="true"] { transform: rotate(180deg); }
+        
+        .submenu-list {
+            list-style: none;
+            padding-left: 0;
+            background-color: rgba(0,0,0,0.3);
+            display: none; /* Hidden by default */
+        }
+        .submenu-list.is-open { display: block; }
+        .submenu-list a { padding-left: 40px; font-size: 0.9em; }
+
+
+        /* --- Content Styling --- */
+        .page-header {
+            text-align: center;
+            padding: 2em 1em;
+            background-color: var(--light-gray);
+        }
+        .page-header__title {
+            font-size: 2.2em;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        main {
+            padding: 1rem 2rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content-section { display: none; }
+        .content-section.is-active { display: block; }
+
+        h2 {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 0.4em;
+            margin-top: 1em;
+        }
+        h3 {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-top: 2em;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 0.8em;
+        }
+        p, li {
+            line-height: 1.7;
+            text-align: justify;
+        }
+        p { scroll-margin-top: 20px; }
+        ul { list-style: none; padding-left: 1em; }
+        li { margin-bottom: 0.5em; }
+
+        .related-pages {
+            font-size: 0.9em;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 4px;
+            margin-bottom: 1.5em;
+            border-left: 3px solid var(--primary-color);
+        }
+        .related-pages a {
+            text-decoration: none;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .related-pages a:hover { text-decoration: underline; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1em;
+            margin-bottom: 2em;
+            font-size: 0.95em;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: var(--light-gray);
+        }
+        td {
+            background-color: #fff;
+        }
+
+        blockquote {
+            border-left: 5px solid #ccc;
+            padding-left: 1.5em;
+            margin-left: 0;
+            font-style: italic;
+        }
+
+        .document {
+            border: 1px solid #ccc;
+            background-color: #fafafa;
+            padding: 1em 1.5em;
+            margin-top: 1.5em;
+            border-radius: 5px;
+        }
+
+        /* --- Back to Top Button --- */
+        #back-to-top-btn {
+            display: none;
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 99;
+            border: none;
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            opacity: 0.7;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        #back-to-top-btn:hover { opacity: 1; transform: scale(1.1); }
+        /* コールアウトの共通スタイル */
+.callout {
+  padding: 20px;
+  margin: 20px 0;
+  border-left: 5px solid #eee;
+  border-radius: 5px;
+}
+
+.callout p {
+  margin: 0; /* pタグのデフォルトマージンをリセット */
+}
+
+/* 種類ごとのスタイル */
+
+/* ノート (note) */
+.callout.note {
+  background-color: #e7f3fe;
+  border-left-color: #2196F3;
+}
+
+/* 警告 (warning) */
+.callout.warning {
+  background-color: #fff4e5;
+  border-left-color: #ff9800;
+}
+
+/* ヒント (tip) */
+.callout.tip {
+  background-color: #e8f5e9;
+  border-left-color: #4CAF50;
+}
+    </style>
+</head>
+<body>
+
+    <button class="menu-button" id="menu-toggle" aria-label="メニューを開く" aria-expanded="false">
+        <span class="menu-button__icon"></span>
+    </button>
+
+    <nav class="main-nav" id="main-nav">
+        <div class="nav-options">
+            <label for="new-tab-checkbox">
+                <input type="checkbox" id="new-tab-checkbox">
+                新しいタブで開く
+            </label>
+        </div>
+        <ul class="nav-list">
+            <li>
+                <div class="submenu-wrapper">
+                    <a href="#facts">問題事実本文</a>
+                    <button class="submenu-toggle" aria-expanded="false" aria-controls="facts-submenu">▼</button>
+                </div>
+                <ul class="submenu-list" id="facts-submenu">
+                    <li><a href="#p-1">¶1</a></li><li><a href="#p-2">¶2</a></li><li><a href="#p-3">¶3</a></li><li><a href="#p-4">¶4</a></li><li><a href="#p-5">¶5</a></li><li><a href="#p-6">¶6</a></li><li><a href="#p-7">¶7</a></li><li><a href="#p-8">¶8</a></li><li><a href="#p-9">¶9</a></li><li><a href="#p-10">¶10</a></li><li><a href="#p-11">¶11</a></li><li><a href="#p-12">¶12</a></li><li><a href="#p-13">¶13</a></li><li><a href="#p-14">¶14</a></li><li><a href="#p-15">¶15</a></li><li><a href="#p-16">¶16</a></li><li><a href="#p-17">¶17</a></li><li><a href="#p-18">¶18</a></li><li><a href="#p-19">¶19</a></li><li><a href="#p-20">¶20</a></li><li><a href="#p-21">¶21</a></li><li><a href="#p-22">¶22</a></li><li><a href="#p-23">¶23</a></li><li><a href="#p-24">¶24</a></li><li><a href="#p-25">¶25</a></li><li><a href="#p-26">¶26</a></li>
+                </ul>
+            </li>
+            <li><a href="#exhibit1">別添1</a></li><li><a href="#exhibit2">別添2</a></li><li><a href="#exhibit3">別添3</a></li><li><a href="#exhibit4">別添4</a></li><li><a href="#exhibit5">別添5</a></li><li><a href="#exhibit6">別添6</a></li><li><a href="#exhibit7">別添7</a></li><li><a href="#exhibit8">別添8</a></li><li><a href="#exhibit9">別添9</a></li><li><a href="#exhibit10">別添10</a></li><li><a href="#exhibit11">別添11</a></li><li><a href="#exhibit12">別添12</a></li><li><a href="#exhibit13">別添13</a></li><li><a href="#exhibit14">別添14</a></li><li><a href="#exhibit15">別添15</a></li><li><a href="#exhibit16">別添16</a></li><li><a href="#exhibit17">別添17</a></li><li><a href="#exhibit18">別添18</a></li><li><a href="#exhibit19">別添19</a></li><li><a href="#exhibit20">別添20</a></li><li><a href="#exhibit21">別添21</a></li><li><a href="#exhibit22">別添22</a></li><li><a href="#exhibit23">別添23</a></li><li><a href="#exhibit24">別添24</a></li><li><a href="#exhibit25">別添25</a></li><li><a href="#exhibit26">別添26</a></li><li><a href="#exhibit27">別添27</a></li><li><a href="#exhibit28">別添28</a></li><li><a href="#exhibit29">別添29</a></li><li><a href="#exhibit30">別添30</a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <h1 class="page-header__title"><a href="https://marblebaseball.github.io/INC/INC20251013.html">2025年度INC問題</a></h1>
+    </header>
+
+    <main>
+        <section id="facts" class="content-section">
+            <h2>問題事実本文</h2>
+            <p id="p-1"><strong>1.</strong> ネゴランド国は、人口約5,000万人、名目GDP約8,500億米ドルの先進国である。同国は、高度な科学技術やそれを活かした産業で知られており、特に、ITやAIなどの分野では世界でも注目されるスタートアップ企業が数多く生まれている。同国は、個人の尊厳を尊重し、表現の自由、思想や信仰の自由などを重視する社会であり、教育では数学や外国語の教育に力を入れるとともに、工学や経済学等の実業に役立つような分野に力を入れてきた。また、技術革新に積極的な企業が多く、新しい技術やビジネス・チャンスについては、一定のリスク管理をしたうえでスピード感を持って積極的にチャレンジしていこうというのが同国の多くの企業に共通した社風である。ネゴランド国は<a href="https://www.newyorkconvention.org/english">外国仲裁判断の承認及び執⾏に関する条約</a>の締約国である。</p>
+            <p id="p-2"><strong>2.</strong> ネゴランド国の医療制度は、全国民が加入し、標準的な医療をカバーする公的な基礎保険制度を基礎とする。これに加えて、個人が任意で民間企業が提供する保険に加入することができる。こうした民間の保険には先進医療等に要する費用をカバーできるものもある。高度な科学技術を活かして技術革新に積極的に取り組むというネゴランド国の産業の一般的な傾向は医療分野にも当てはまる。ICT技術を利用した遠隔医療やAIの医療への利用はネゴランド国全土に広がり、成果連動型の医療費の支払いも一定の先進的な医療との関係で承認されてきている。医療分野の監督を担当するのは保健・医療省である。保険・医療省は先進医療の導入・推進に積極的に取り組んでおり、そのための法令の改正やガイダンスの公表を進めている。現時点におけるネゴランド国の先進医療の利活用に関連する法令やガイダンスの例は<a href="#exhibit1" target="_blank">別添1</a>のとおりである。</p>
+            <p id="p-3"><strong>3.</strong> アービトリア国は、人口約1億2,500万人、名目GDP約4兆米ドルを超える世界有数の経済大国である。同国は、自動車、電子機器、精密機械などの製造業に強みを持ち、近年では再生可能エネルギーやロボット工学、AIなどの分野にも力を入れている。社会は、個人の尊厳を重視しつつも、秩序と調和を尊ぶ文化が根づいている。教育においては、基礎学力の充実を重視し、とりわけ理数系科目に力を入れるとともに、工学や医学、経済学など実社会に直結する分野の人材育成が進められてきた。企業文化としては、長期的な安定を重視する傾向がある一方で、国際競争に対応するため新技術の導入やイノベーションへの取り組みも進んでおり、とりわけ品質管理や安全性に高い基準を設ける点に特徴がある。</p>
+            <p id="p-4"><strong>4.</strong> アービトリア国の医療制度は、全国民を対象とした公的医療保険制度を基礎とする。国民は職業や居住地に応じて複数の保険者(公的保険組合等)に加入する仕組みであり、誰もが比較的安価な負担で一定水準の医療を受けられる。これに加えて、個人が任意で民間保険に加入し、公的保険の対象外となる先進医療等をカバーすることもできる。同国では高齢化が急速に進んでおり、医療費の効率的な配分や医療サービスの均てん化が大きな政策課題となっている。他方で、ロボット手術やAI診断支援、遠隔医療といった先端技術の導入も積極的に検討されている。医療分野の監督官庁は厚生・医療省である。同省は、先進医療や医薬品の利用をめぐる規制や指針の策定に関して、社会保障制度全体の持続可能性を確保しつつ、科学技術の進展を取り入れるため、関連する法令の改正や技術導入に関するガイドラインを段階的に整備してきている。現時点におけるアービトリア国の先進医療の利活用に関連する法令やガイダンスの例は<a href="#exhibit2" target="_blank">別添2</a>のとおりである。アービトリア国は<a href="https://www.newyorkconvention.org/english">外国仲裁判断の承認及び執⾏に関する条約</a>の締約国である。</p>
+            <p id="p-5"><strong>5.</strong> レッド社は、ネゴランド国に本社を置くAI医療技術関連のスタートアップ企業である。従業員数は約600名で、その多くがデータサイエンス、医療情報学、ソフトウェア工学の専門家である。同社は中規模ながら、研究開発力とスピード感ある市場展開を特徴としており、「リスクを許容しても革新を早く取り入れる」というネゴランド国の典型的な企業文化や制度環境を体現している。レッド社の中核事業はAI医療支援ツール「レッド・エイド(Red Aid)」である。このツールは患者の症状や検査データを入力すると、AIが既存の医療知識と照合し、診断候補や治療計画を提示する仕組みを持つ。臨床判断の最終責任は医師にあるが、診断プロセスを効率化し、特に若手医師や多忙な病院での活用が期待されている。「レッド・エイド」はネゴランド国内の複数の病院で既に導入が進んでおり、同国の<a href="#exhibit1" target="_blank">サンドボックス制度</a>を利用して早期に市場に投入された成功例とされる。レッド社はまた、「レッド・リンク(RedLink)」という遠隔医療プラットフォーム事業も展開している。このサービスは、患者と医師、あるいは病院間をオンラインで接続し、診療・コンサルテーションを効率化するものである。ネゴランド国内では地域医療や国際共同研究の基盤として徐々に浸透しており、レッド社では国外市場への進出も視野に入れている。レッド社の事業の概要は<a href="#exhibit3" target="_blank">別添3</a>のとおりである。</p>
+            <p id="p-6"><strong>6.</strong> ブルー大学は、アービトリア国に所在する私立の名門大学法人であり、教育部門と付属病院部門を有している。特に医学・薬学分野において国内外で高い評価を受けている。同大学には約3,000名の教職員が在籍し、そのうち800名は医学・薬学を中心とする研究者である。付属病院は1,000床を超える大規模施設であり、地域医療の中核としての役割を果たすとともに、先端的な臨床研究の拠点としても機能している。ブルー大学は、アービトリア国の文化的特徴を反映し、安全性と信頼性を最優先する姿勢を貫いている。新技術の導入に際しては厳格な倫理審査や臨床試験を経て、長期的な安全性が確認されて初めて本格的な導入に至ることを基本方針としている。特にAI技術やデジタル医療については、患者の権利保護や個人情報管理を最重視し、人間中心原則を徹底する方針を掲げている。また、ブルー大学は近年「医療ツーリズム」にも注力している。国外からの患者を受け入れ、高度な医療サービスを提供することで国際的な評価を高め、収益基盤を強化する狙いがある。医療ツーリズム部門は年々成長しており、今後はAIやICTの活用によって外国人患者の利便性を向上させる構想も検討されている。ブルー大学の事業の概要は<a href="#exhibit4" target="_blank">別添4</a>のとおりである。</p>
+            <p id="p-7"><strong>7.</strong> レッド社とブルー大学の関係が始まったのは、2023年秋に日本で開催された「臨床AIシンポジウム」である。この国際シンポジウムでは、医療へのAIの活用に関する最先端の技術や機器、臨床での活用事例についての情報交換や議論が行われ、救急外来でのトリアージの効率化、循環器領域での見逃しの低減、呼吸器疾患の再入院率抑制等におけるAIの活用事例が紹介された。このシンポジウムの場で、レッド社は自社が開発したAI診断支援ツールRedAidについての紹介を行った。レッド社が配布したRedAidの機能や用途についての説明の概要は<a href="#exhibit5" target="_blank">別添5</a>のとおりである。また、ブルー大学は臨床統治や倫理審査(IRB/IEC)の重要性に関する発表をおこなった。ブルー大学の発表の要旨は<a href="#exhibit6" target="_blank">別添6</a>のとおりである。</p>
+            <p id="p-8"><strong>8.</strong> レッド社からの参加者とブルー大学の参加者はお互いの発表を興味深く聞いた。レッド社はブルー大学のような国際的にも知られている大学がRedAidを採用してくれた場合には、RedAidの知名度が向上するし、ブルー大学によるRedAidの利用を通じて得られたデータを活かしてさらにdをより良いものにしていくことができると考えていた。一方、ブルー大学はRedAidの導入は診療の高度化・効率化に役立つ可能性があると考えた。そこで、後日、レッド社の担当者がブルー大学を訪問し、RedAidについてより詳しい説明を行うこととなった。</p>
+            <p id="p-9"><strong>9.</strong> 2023年11月、レッド社の担当者がブルー大学を訪問し、RedAidについて議論した。同年12月にはブルー大学内に設置されたデータガバナンス委員会において、レッド社の技術担当者とブルー大学の臨床・情報部門の責任者が同席し、RedAidについての具体的な検証作業が進められた。検証作業の集大成として実施された会議の議事録は<a href="#exhibit7" target="_blank">別添7</a>のとおりである。</p>
+            <p id="p-10"><strong>10.</strong> この会議での合意を踏まえて、ブルー大学は院内のデータガバナンス委員会でさらに具体的な技術検証を行い、2024年初頭には3か月間のPoC(実証試験)が実施され、RedAidがブルー大学の環境で期待される機能を発揮することが確認された。PoCの報告書は<a href="#exhibit8" target="_blank">別添8</a>のとおりである。これを受け、2024年4月1日、レッド社とブルー大学は正式にライセンス契約を締結した。ライセンス契約のうち、本問題に関連する部分の抜粋は<a href="#exhibit9" target="_blank">別添9</a>の通りである。この契約の締結の際にレッド社からブルー大学に提供されたRedAidのモデルカードとリスクマネジメント計画の抜粋は<a href="#exhibit10" target="_blank">別添10</a>のとおりである。</p>
+            <p id="p-11"><strong>11.</strong> 2024年4月15日、レッド社はRedAidの重要なアップデート(v3.3.0)を正式に配信し、循環器および呼吸器モジュールにおける識別閾値を最適化し、偽陰性リスクを低減する改良を導入した。この配信はブルー大学にも届いていた。このアップデートの通知は<a href="#exhibit11" target="_blank">別添11</a>のとおりである。</p>
+            <p id="p-12"><strong>12.</strong> 2024年4月18日、救急病棟で患者の死亡事例が発生した。同症例では、胸痛と呼吸困難を訴えて来院した62歳男性患者に対し、担当医が旧版v3.2.1のAI出力を参照した結果、「低リスク」と判定され、入院観察が回避された。翌日、患者は急変して再来院したが、集中治療室に搬送後に死亡する転帰をたどった。この症例に関する症例記録は<a href="#exhibit12" target="_blank">別添12</a>のとおりである。この症例を踏まえ、ブルー大学は4月18日よりRedAidの利用を停止するとともに（ブルー⼤学はレッド社に対してRedAidの利⽤を
+停⽌する旨を伝えたが、レッド社からは返答はなかった）、内部調査を実施した。内部調査の報告書案は<a href="#exhibit13" target="_blank">別添13</a>のとおりである。この内部調査報告書案を踏まえ、レッド社とブルー大学は協議を行った。その協議の記録は<a href="#exhibit14" target="_blank">別添14</a>のとおりである。</p>
+            <p id="p-13"><strong>13.</strong> その後、この内部調査報告書案が外部に流出した。流出した原因は、ブルー大学の職員がPCの操作を過失により誤って内部調査報告書案を同大学のウェブサイト上で外部者が閲覧可能な状態にしてしまったことによる。1時間後に外部からの指摘で気がついて削除したが、この間に報告書案は閲覧されたりダウンロードされたようである。これを受け、SNSや業界誌でRedAidに欠陥があるのではないかとの情報が広まった。SNSや業界誌における記述は<a href="#exhibit15" target="_blank">別添15</a>のとおりである。</p>
+            <p id="p-14"><strong>14.</strong> レッド社とブルー大学が同意して選任した外部の専門家によるレポートは<a href="#exhibit16" target="_blank">別添16</a>のとおりである。このレポートによって、アップデート後のRedAidには欠陥が見られないことが判明したとして、ブルー大学は、、9⽉1⽇から9⽉17⽇かけて改めてRedAidの機能や利⽤法について医師・看護師・職員を対象にした研修を⾏ったうえで、9月18日よりRedAidの利用を再開した。</p>
+            <p id="p-15"><strong>15.</strong> レッド社は、内部調査報告書案の流出によって多大な損害を被ったと主張し、ブルー大学に対して損害の賠償を求める文書を送付した。この文書は<a href="#exhibit17" target="_blank">別添17</a>のとおりである。これに対して、ブルー大学は<a href="#exhibit18" target="_blank">別添18</a>の文書を送付した。レッド社とブルー大学は本件について交渉を行ったが、交渉は平行線を辿り、決着しなかったため、レッド社はブルー大学を相手に仲裁の申立てを行った。これに対してブルー大学はレッド社の請求を棄却を求めるとともに、ブルー大学が支払った慰謝料相当額の賠償(<a href="#exhibit18" target="_blank">別添18</a>を参照)を求める反対請求を行った。この事件を、「RedAid事件」という。</p>
+            <p id="p-16"><strong>16.</strong> そうしたところ、レッド社とブルー大学との間には、もう1つのトラブルが発生した。ブルー大学は、2023年頃より、自国の医療水準を国際的に発信し、国際的な医療ツーリズムの拠点となることを目指した準備を進めていた。その一環として、海外患者が来院前にオンラインで症状を入力し、AIが事前にリスクを判定する「医療ツーリズム向けAI診断支援システム」の導入を計画した。これにより、来院患者の適切な事前トリアージが可能となり、不要な渡航を防ぎ、また患者に安心を提供できると考えられていた。</p>
+            <p id="p-17"><strong>17.</strong> ブルー大学は、この点でも、この分野で世界的に評価を得ていたレッド社に注目した。レッド社は既に複数の国でAI診断支援ツール「RedAid」を展開しており、RedAidは医療ツーリズム向けの機能も提供することができた。そこで、2024年12月から、レッド社とブルー大学との間で技術的可能性や契約条件をめぐる協議が行われた。レッド社とブルー大学との間にはRedAid事件が起きていたが、既にこの時点ではアップデート後のRedAidには欠陥が認められないことが外部の専門家の調査によって明らかになっており、レッド社とブルー大学はRedAid事件については仲裁で解決しつつ、医療ツーリズムに関する件については、RedAid事件とは切り離して考えることで合意した。両者の協議の集⼤成となった2025年1⽉15⽇の会議の記録は<a href="#exhibit19" target="_blank">別添19</a>のとおりである。2025年2月1日に「医療ツーリズム向けAI診断支援特約」が締結された。この特約は<a href="#exhibit20" target="_blank">別添20</a>のとおりである。</p>
+            <p id="p-18"><strong>18.</strong> 契約締結後、レッド社はブルー大学の求める性能要件――すなわち10言語以上の多言語対応、CT/MRI等の高精細画像のリアルタイム処理、同時500件以上のアクセスに耐えうる接続能力――を満たすには、ネゴランド国内にある自社契約の高性能クラウドを部分的に利用せざるを得ないと判断した。そこでレッド社はブルー大学に改めて確認を行ったところ、ブルー大学のIT部門長からの返答があった。この点についてのレッド社とブルー大学との間のやりとりは<a href="#exhibit21" target="_blank">別添21</a>のとおりである。</p>
+            <p id="p-19"><strong>19.</strong> 2025年7月15日より、ブルー大学は医療ツーリズムに関するRedAidの利用を開始した。しかし、2025年8月15日、ブルー大学監査部は内部監査の一環としてRedAidシステムの利用状況を調査し、一部の患者データがネゴランド国内クラウドに保存されていることを確認した。監査部は直ちに大学上層部に報告し、問題は大学全体で大きな懸案となった。これに対し、IT部門は「性能要件を満たすための運用上の措置であり、ここまで大事になるとは予期していなかった」と釈明している。監査部の監査結果の抜粋は<a href="#exhibit22" target="_blank">別添22</a>のとおりである。監査結果を受けて、ブルー大学は8月20日付でレッド社に正式通知を送り、国外移転を直ちに停止し、すべてのデータをアービトリア国内に戻すよう通告した。この通知書は<a href="#exhibit23" target="_blank">別添23</a>のとおりである。これに対して、レッド社は8月22日付で<a href="#exhibit24" target="_blank">別添24</a>のとおり回答した。さらに、8月25日、レッド社は再度ブルー大学に対して<a href="#exhibit25" target="_blank">別添25</a>のとおりの通知を送付した。これに対してブルー大学は9月5日、<a href="#exhibit26" target="_blank">別添26</a>のとおり回答した。</p>
+            <p id="p-20"><strong>20.</strong> ブルー大学は9月7日にアービトリア国個人情報保護委員会に自己申告を行った。ブルー大学は、アービトリア国個人情報保護委員会からブルー大学になされた通知を踏まえ、9月12日にレッド社に対して<a href="#exhibit27" target="_blank">別添27</a>の文書を送付し、9月13日にはレッド社からブルー大学に対して<a href="#exhibit28" target="_blank">別添28</a>の文書が送付された。</p>
+            <p id="p-21"><strong>21.</strong> そこで、ブルー大学はレッド社に対して、国外移転を停止すべきこと、RedAidの医療ツーリズム特約に基づくサービスを継続して提供すべきこと、ブルー大学がアービトリア国個人情報保護法に基づき支払いを余儀なくされた制裁金はレッド社が賠償すべきこと、を求めて仲裁の申立てを行った。また、国外移転を遅くとも11月30日までに停止すべきことと、仲裁判断が出るまでの間、サービスを継続して提供せよと命じる暫定的な処分の申立てを行った。この事件を「ツーリズム事件」という。</p>
+            <h2 id="p-22">&lt;ラウンドA&gt;</h2>
+            <p><strong>22.</strong> レッド社とブルー大学は、「RedAid事件」及び「ツーリズム事件」の双方を併合して審理することに合意し、仲裁人との協議の結果、11月15日に口頭での審理を実施することとなった。なお、仲裁人を交えた争点整理の結果、11月15日に審理する争点は、<a href="#exhibit29" target="_blank">別添29</a>のとおりと合意されている。</p>
+            <h2 id="p-23">&lt;ラウンドB&gt;</h2>
+            <p><strong>23.</strong> 今回の交渉は、ネゴランド国に所在するAI医療技術企業レッド社と、アービトリア国の名門私立大学ブルー大学との間で行われるものである。ラウンドBとの関係では、問題文の1段落から7段落、及び、別添１から６は適用されるが、問題文の８段落以降降、及び、別添７以降は適用されないものとする。また、ラウンドBとの関係では、RedAidには他⾔語機能はないものとし、ネゴランド国及びアービトリア国の公⽤語である英語のみに対応しているものとする。 </p>
+            <p id="p-24"><strong>24.</strong> レッド社は、自社の中核製品であるAI医療支援ツール「RedAid」の精度をさらに高め、特に希少疾患や高齢者、複数の合併症を抱える患者にも対応できるよう改良したいと考えていた。しかし、そのために必要な大規模で多様な臨床データが不足していた。そこで、国際的に著名で豊富な臨床データを有するブルー大学との連携に強い関心を持つに至った。一方、ブルー大学は、国際的な存在感を一層高めるため、高い技術力を持つ企業と共同研究契約を結びたいと考えていた。学術的成果の発表や研究資金の確保に加え、臨床現場での診療の高度化にもつなげたいとの思いから、AI医療技術に強みを持つレッド社との提携に魅力を感じた。</p>
+            <p id="p-25"><strong>25.</strong> 両者の担当者が議論した結果、以下の2つのテーマで連携の可能性があるのではないかということになっている。両者は2025年春、日本での国際シンポジウムの場で面談し、以下の2のテーマを中心に協議を進めることとなった。</p>
+            <h3>1.「RedAid」に関する共同研究契約の主要な内容 </h3>
+            <h3>2.遠隔医療プラットフォーム「RedLink」の導入に関する契約の主要な内容</h3>
+            <p id="p-26"><strong>26.</strong> これらのテーマについて、両者の担当者が集まって議論した際の議事録は<a href="#exhibit30" target="_blank">別添30</a>のとおりである。11月16日には、この際の議論も踏まえ、3つのテーマについて交渉することとなっている。レッド社からは、副社長、最高技術責任者、法務部長等が、ブルー大学からは副理事長、臨床統治部長、法務部長等が交渉に参加することを予定している。なお、チームのメンバーの数が4名以上の場合には、各チームで適宜適切な役職を設定すること。</p>
+        </section>
+
+        <section id="exhibit1" class="content-section">
+            <h2>別添1 ネゴランド国における法令やガイダンスの例</h2>
+            <div class="related-pages">関連ページ: <a href="#p-2">本文¶2</a></div>
+            <article>
+                <h3>1.医療機器法</h3>
+                <ul>
+                    <li><strong>制度の概要</strong>
+                        <p>新規医療機器の臨床利用・販売には保健・医療省の承認が必要である。申請には臨床試験データ、製造プロセス、品質管理体制などの詳細資料を添付する必要がある。</p>
+                    </li>
+                    <li><strong>通常の承認プロセス</strong>
+                        <p>審査には通常12~18か月程度を要する。ただし、申請者と規制当局の間でオンライン審査ツールや電子申請を活用する仕組みが整備され、審査効率は高い。</p>
+                    </li>
+                    <li><strong>先進的枠組み</strong>
+                        <p>「サンドボックス制度」を導入。先進的な医療機器であると保健・医療省が認めた機器については、審査期間を6~9か月程度に短縮し、条件付きで市場投入可能。限定された市場(希少疾患、緊急医療ニーズなど)において臨床利用を認め、同時に追加データを収集する。</p>
+                    </li>
+                    <li><strong>特徴</strong>
+                        <p>多数のスタートアップ企業がこの制度を利用してAI診断機器や遠隔モニタリングデバイスを投入している。失敗やリスクが一定程度許容される一方で、迅速なフィードバックにより改良が進む環境が整っている。</p>
+                    </li>
+                </ul>
+            </article>
+            <article>
+                <h3>2.個人情報保護法</h3>
+                <ul>
+                    <li><strong>制度の概要</strong>
+                        <p>診療録、検査値、画像、遺伝情報、疾患歴、保険請求情報などを「医療用個人データ」として特別の規律の対象となっている。これらのデータの収集や利用については本人の同意を前提とするが、研究・開発のための利用については、本人に不当な損害を与えないことを条件に利用が認められている。</p>
+                    </li>
+                    <li><strong>国外移転</strong>
+                        <p>医療用個人データのうち匿名化されたデータについては本人の同意がなく国外移転が可能である。匿名化されていないデータについては、本人の同意が必要である。個人情報の保護の程度がネゴランド国と同程度でない国への移転も、契約で一定の保護措置を講じれば可能である。</p>
+                    </li>
+                    <li><strong>研究利用</strong>
+                        <p>AI学習や国際共同研究のためのデータ利用は積極的に奨励されている。クラウドサービス事業者や海外研究機関とのデータ共有も広く認められる。</p>
+                    </li>
+                    <li><strong>特徴</strong>
+                        <p>「データの利活用によるイノベーション促進」を最優先するというのがネゴランド国の方針であり、個人情報保護は必要だが、イノベーションの阻害要因にならないよう規制は柔軟に解釈される傾向にある。</p>
+                    </li>
+                </ul>
+            </article>
+            <article>
+                <h3>3.医療分野におけるAIガイダンス(保健・医療省)</h3>
+                <ul>
+                    <li><strong>開発者の責務</strong>
+                        <p>AIを利用する医療機器の開発にあたっては、利用目的、想定ユーザー、学習データの概要、既知の偏り、性能・限界、セキュリティ脆弱性を記載した「モデルカード」を整備する必要がある。ただし、記載の水準は比較的簡潔で、詳細性よりも「透明性の確保」が重視される。</p>
+                    </li>
+                    <li><strong>医療機関の対応</strong>
+                        <p>実際に医療の現場で利用するかどうかの判断は、医療機関がモデルカードを参考に行う。医療機関は、導入後は性能の劣化がないかを監視する努力義務を負う。</p>
+                    </li>
+                    <li><strong>臨床判断</strong>
+                        <p>原則として医師が最終責任を負うが、リスクが許容可能と医療機関が判断した範囲ではAI単独の診断や治療判断も認められる。</p>
+                    </li>
+                    <li><strong>特徴</strong>
+                        <p>医療機関の判断により、AIを「補助」ではなく「準自律的ツール」として活用可能な柔軟性がある。</p>
+                    </li>
+                </ul>
+            </article>
+        </section>
+
+        <section id="exhibit2" class="content-section">
+            <h2>別添2 アービトリア国における法令やガイダンスの例</h2>
+            <div class="related-pages">関連ページ: <a href="#p-4">本文¶4</a></div>
+            <article>
+                <h3>1.医薬品医療機器法</h3>
+                <ul>
+                    <li><strong>制度の概要</strong>
+                        <p>医薬品と医療機器の承認・流通を規律する基本法であり、新規医療機器の販売には厚生・医療省の承認が必須である。</p>
+                    </li>
+                    <li><strong>通常の承認プロセス</strong>
+                        <p>審査には通常18か月以上を要する。審査のための提出資料は膨大で、臨床試験データに加え、長期的安全性や製造工程の詳細も重視される。</p>
+                    </li>
+                    <li><strong>先進的枠組み</strong>
+                        <p>先進的な医療機器については、「先駆け審査指定制度」(12か月程度で審査する)、「条件付き早期承認制度」(9か月程度で限定された症例での利用に限り認める等の条件付きで承認する)が存在するが、対象範囲は限定的で利用件数も少ない。サンドボックスのように広範な早期導入制度は存在しない。</p>
+                    </li>
+                    <li><strong>特徴</strong>
+                        <p>「失敗を許さない」といった文化が行政一般にあり、制度にも反映されている。新技術の市場投入は遅くなるが、国民にとっての安全性・信頼性を優先するというのが政府の基本的な方針である。</p>
+                    </li>
+                </ul>
+            </article>
+            <article>
+                <h3>2.個人情報保護法</h3>
+                <ul>
+                    <li><strong>制度の概要</strong>
+                        <p>診療録、検査値、画像、遺伝情報、疾患歴、保険請求情報などの医療データは「要配慮個人情報」とされ、特に厳格な規律の対象となっている。収集や利用にあたっては、利用目的の特定、本人同意の取得が必須である。</p>
+                    </li>
+                    <li><strong>国外移転</strong>
+                        <p>医療データは、アービトリア国と同程度の個人情報保護の制度が整っている国としてアービトリア国の個人情報保護当局が認定した国に対してのみ移転可能であり、移転する場合には個人情報の保護を実現するために必要な契約上の取り決めを関係当事者と行う必要がある。なお、ネゴランド国は、上記の認定の対象とはなっていない。</p>
+                    </li>
+                    <li><strong>研究利用</strong>
+                        <p>AI学習や国際共同研究のために利用できるのは、本人が特定できない情報(本人を特定するような処理が不可能な形に加工された情報、及び、他の情報と照合しない限りは本人が特定できない情報)に限られる。海外クラウドの利用や国外の研究機関との共同研究のための国外移転の場合、個別に本人の同意を得る必要がある。</p>
+                    </li>
+                    <li><strong>特徴</strong>
+                        <p>個人情報保護の水準は国際的に見ても厳格で、国民の安心感を支える一方で、研究や事業者にとっては柔軟性に欠けるとの指摘がある。</p>
+                    </li>
+                </ul>
+            </article>
+            <article>
+                <h3>3.医療分野におけるAIガイダンス(厚生・医療省)</h3>
+                <ul>
+                    <li><strong>開発者の責務</strong>
+                        <p>モデルカードには学習データの偏り、性能限界、失敗モード、セキュリティ対策を詳細に記載する必要がある。記載は形式的ではなく、実務的検証が可能な水準が要求される。</p>
+                    </li>
+                    <li><strong>医療機関の対応</strong>
+                        <p>医療機関は、AIを用いた医療機器を導入する前には、臨床的・技術的・運用的観点から厳格な妥当性確認を実施し、確認の内容を記録する義務がある。また、導入後も年1回以上、性能監視・再評価を行う義務がある。</p>
+                    </li>
+                    <li><strong>臨床判断</strong>
+                        <p>臨床におけるあらゆる最終責任は必ず医師等の専門職が負う。AI単独の診断・治療判断は禁止されている。</p>
+                    </li>
+                    <li><strong>特徴</strong>
+                        <p>AIはあくまで「補助ツール」としての位置付けに留まり、人間中心原則を徹底するというのが基本的な考え方である。</p>
+                    </li>
+                </ul>
+            </article>
+        </section>
+
+        <section id="exhibit3" class="content-section">
+            <h2>別添3 レッド社の概要</h2>
+            <div class="related-pages">関連ページ: <a href="#p-5">本文¶5</a></div>
+            <ul>
+                <li><strong>設立:</strong> 1975年</li>
+                <li><strong>本店:</strong> ネゴランド国ネゴネゴ市</li>
+                <li><strong>社長:</strong> ヒロミ・レッド</li>
+            </ul>
+            <p>ネゴランド国法上の株式会社(非上場)</p>
+            <h3>売上高・利益推移 (単位:百万米ドル)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>年度</th>
+                        <th>売上高</th>
+                        <th>営業利益</th>
+                        <th>純利益</th>
+                        <th>備考</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2022</td>
+                        <td>120</td>
+                        <td>12</td>
+                        <td>8</td>
+                        <td>「レッド・エイド」国内試験導入期</td>
+                    </tr>
+                    <tr>
+                        <td>2023</td>
+                        <td>160</td>
+                        <td>18</td>
+                        <td>12</td>
+                        <td>サンドボックス制度活用で利用拡大</td>
+                    </tr>
+                    <tr>
+                        <td>2024</td>
+                        <td>200</td>
+                        <td>25</td>
+                        <td>17</td>
+                        <td>海外展開開始、クラウド連携強化</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>部門別業績 (2024年度)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>部門</th>
+                        <th>売上高(百万米ドル)</th>
+                        <th>特徴</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>AI医療支援ツール「レッド・エイド」</td>
+                        <td>120</td>
+                        <td>主力事業。診断補助・治療計画支援で国内外の病院に導入。</td>
+                    </tr>
+                    <tr>
+                        <td>データ解析・AI学習サービス</td>
+                        <td>40</td>
+                        <td>匿名化データを活用した研究受託や製薬企業向け解析。</td>
+                    </tr>
+                    <tr>
+                        <td>遠隔医療プラットフォーム「レッド・リンク」</td>
+                        <td>40</td>
+                        <td>患者・医師間のオンライン診療支援サービス。市場拡大中。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="exhibit4" class="content-section">
+            <h2>別添4 ブルー大学の概要</h2>
+            <div class="related-pages">関連ページ: <a href="#p-6">本文¶6</a></div>
+            <ul>
+                <li><strong>設立:</strong> 1900年</li>
+                <li><strong>所在地:</strong> アービトリア国アブアブ市</li>
+                <li><strong>理事長:</strong> リン・ブルー</li>
+            </ul>
+            <p>アービトリア国法上の学校法人(非上場)</p>
+            <h3>売上高・利益推移 (単位:百万米ドル)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>年度</th>
+                        <th>売上高</th>
+                        <th>営業利益</th>
+                        <th>純利益</th>
+                        <th>備考</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2022</td>
+                        <td>600</td>
+                        <td>55</td>
+                        <td>35</td>
+                        <td>大学病院と教育事業による安定収益</td>
+                    </tr>
+                    <tr>
+                        <td>2023</td>
+                        <td>640</td>
+                        <td>60</td>
+                        <td>38</td>
+                        <td>医療ツーリズムが拡大基調</td>
+                    </tr>
+                    <tr>
+                        <td>2024</td>
+                        <td>680</td>
+                        <td>65</td>
+                        <td>42</td>
+                        <td>国際患者受入と教育強化で収益拡大</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>部門別業績 (2024年度)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>部門</th>
+                        <th>売上高(百万米ドル)</th>
+                        <th>特徴</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>大学病院(診療収益)</td>
+                        <td>300</td>
+                        <td>地域医療の中核。AI導入は試験的。</td>
+                    </tr>
+                    <tr>
+                        <td>研究活動(助成金・共同研究収入)</td>
+                        <td>120</td>
+                        <td>公的資金や産学連携に基づく安定収入</td>
+                    </tr>
+                    <tr>
+                        <td>医療ツーリズム</td>
+                        <td>80</td>
+                        <td>高度医療と安心感を武器に国際患者を獲得。</td>
+                    </tr>
+                    <tr>
+                        <td>教育活動(入学金・授業料)</td>
+                        <td>180</td>
+                        <td>学部・大学院の授業料、留学生受入収入を含む。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <section id="exhibit5" class="content-section">
+            <h2>別添5 RedAidの概要説明書</h2>
+            <div class="related-pages">関連ページ: <a href="#p-7">本文¶7</a><a href="#exhibit2">別添2</a></div>
+            <h3>1.基本的な機能</h3>
+            <ul>
+                <li><strong>診断支援:</strong> 患者の症状、バイタルサイン、検査結果(血液検査、画像データなど)を入力すると、可能性の高い疾患候補を提示する。</li>
+                <li><strong>確率提示:</strong> 各疾患の推定確率を数値で示し、医師がリスクを定量的に把握できる。</li>
+                <li><strong>エビデンス表示:</strong> 医学文献やガイドラインに基づいた根拠を提示し、診断の裏付けを提供する。</li>
+                <li><strong>アラート機能:</strong> 重篤疾患の見逃しリスクが高い場合に警告を表示し、即時対応を促す。</li>
+            </ul>
+            <h3>2.補助的な機能</h3>
+            <ul>
+                <li><strong>トリアージ支援:</strong> 救急外来などで重症患者を優先的に振り分けるための補助。</li>
+                <li><strong>再入院リスク予測:</strong> 過去のデータをもとに、再入院の可能性を予測し、フォローアップを強化する。</li>
+                <li><strong>多言語対応:</strong> 外国人患者に対して問診を多言語で支援する。</li>
+                <li><strong>学習機能:</strong> 匿名化されたデータを用いて継続的に性能を向上させる(フェデレーテッドラーニングや合成データ利用に対応)。</li>
+            </ul>
+            <h3>3.想定される用途</h3>
+            <ul>
+                <li><strong>救急外来:</strong> 多数の患者が来院する中で、重症患者を迅速に特定するために利用。</li>
+                <li><strong>循環器領域:</strong> 心筋梗塞や不整脈など、見逃すと致命的な疾患のリスクを低減。</li>
+                <li><strong>呼吸器領域:</strong> 肺炎や慢性閉塞性肺疾患(COPD)の重症度判定、再入院リスク管理。</li>
+                <li><strong>セカンドオピニオン:</strong> 複雑な症例で、医師が判断を補強する際に参照可能。</li>
+                <li><strong>医療ツーリズム:</strong> 海外患者の問診や診療支援を多言語で行い、国際的な医療提供をサポート(別途、医療ツーリズム向けの特約を締結する必要あり)</li>
+                <li>救急領域、循環器領域、呼吸器領域、医療ツーリズム以外についても追加モジュールを⽤いることで利⽤可能。</li>
+            </ul>
+            <h3>4.特徴</h3>
+            <ul>
+                <li><strong>Human-in-the-Loop (HITL)原則:</strong> 最終判断は必ず医師が行う。AIが自律的に診断や治療を決定することはない。</li>
+                <li><strong>安全性と透明性:</strong> モデルカードやリスク管理計画を備え、性能や限界、セキュリティ上の注意点を明示。</li>
+                <li><strong>柔軟な導入形態:</strong> 院内サーバー運用やクラウド運用に対応し、各国の個人情報保護制度に合わせて設計可能。</li>
+            </ul>
+            <h3>5.レッド社が保有する情報とその権利について</h3>
+            <ul>
+                <li>患者の診療に直接関連する個票データ(診療録、画像、検査値等)をレッド社は取得・保有しない(これらは利用機関が管理主体として保持し、レッド社はアクセスできない仕様)。</li>
+                <li>RedAidの運用・改善のために、以下の種類の情報はレッド社が生成・保有する。
+                    <ul>
+                        <li><strong>システムログ情報:</strong> アクセス履歴、利用頻度、エラーログ、稼働率、応答時間等(個人を特定可能な情報は含まれないように処理)</li>
+                        <li><strong>集計メタデータ:</strong> 診療科別の利用件数、利用時間帯、処理された画像枚数など、統計的に整理された情報(医療機関ごとの業務効率改善や、RedAidの機能強化に活用)</li>
+                        <li><strong>匿名化・合成データ(医療機関と合意した場合):</strong> 学習や性能検証の目的で、個人識別性を除去したデータを統計的に処理し生成したもの(個票データを復元することは不可)</li>
+                    </ul>
+                </li>
+                <li>これらの情報は、RedAidの継続的改善や新機能開発のために不可欠なリソースであり、レッド社が権利を有し、知的財産として管理。ただし、当該情報の利用に際しては、常に契約条項および適用法令に従い、利用機関の利益を害さない範囲に限られる。</li>
+            </ul>
+        </section>
+
+<section id="exhibit6" class="content-section">
+            <h2>別添６ ブルー大学の発表の要旨</h2>
+            <div class="related-pages">関連ページ: <a href="#p-7">本文¶7</a></div>
+            <article>
+                <h3>題目</h3>
+                <p>臨床AI導入におけるデータガバナンスと医療統治の課題 - 救急・循環器・呼吸器領域での実践的検討</p>
+                <h3>概要</h3>
+                <p>近年、臨床現場では救急外来におけるトリアージの効率化、循環器領域における重症例の見逃し防止、呼吸器疾患における再入院率抑制といった具体的課題が顕在化している。本発表では、これらの課題に対してAI診断支援技術を導入する際の統治上・倫理上の要件を検討した。</p>
+                <p>ブルー大学は、AI活用にあたり「Human-in-the-Loop (HITL)」を原則とし、最終的な診療判断は必ず医師が担うべきことを強調する。また、臨床利用に進む前に倫理審査委員会(IRB/IEC)の承認を得る必要があるとし、透明性確保の観点からモデルカードおよびリスク管理計画(RMP)の開示を不可欠と位置づける。さらに、患者データの管理については匿名化、国内保管、利用目的の限定を基本とし、外部機関による監査体制を整備することの重要性を指摘する。</p>
+                <p>本発表は、技術革新の恩恵を取り入れつつも、安全性・信頼性・説明責任を重視するブルー大学の基本姿勢を示すものであり、臨床AIの持続的活用に向けた制度設計とガバナンスの在り方について議論を深めるものである。</p>
+            </article>
+        </section>
+
+        <section id="exhibit7" class="content-section">
+            <h2>別添７ ブルー大学データガバナンス委員会会議記録</h2>
+            <div class="related-pages">関連ページ: <a href="#p-9">本文¶9</a></div>
+            <article>
+                <p><strong>日付:</strong> 2023年12月15日</p>
+                <p><strong>場所:</strong> ブルー大学データガバナンス委員会会議室</p>
+                <h3>出席者</h3>
+                <ul>
+                    <li><strong>ブルー大学:</strong> データガバナンス委員会委員長、臨床統治部長、情報システム部長、委員会メンバー</li>
+                    <li><strong>レッド社:</strong> 最高技術責任者(CTO)、医療AI部門責任者、法務担当</li>
+                </ul>
+                <h3>議題</h3>
+                <ol>
+                    <li>1. RedAid導入によるブルー大学医療の高度化への貢献について</li>
+                    <li>2. データ取扱いおよび国外移転の制限について</li>
+                    <li>3. フェデレーテッドラーニングおよび合成データの利用について</li>
+                    <li>4. 文書化要件(モデルカードおよびリスクマネジメント計画)について</li>
+                    <li>5. 報告体制と監督の仕組みについて</li>
+                </ol>
+                <h3>議論および合意事項</h3>
+                <article>
+                    <h4>1. RedAid導入によるブルー大学医療の高度化</h4>
+                    <ul>
+                        <li>委員会では、RedAidの導入がブルー大学の診療高度化に大きく寄与するとの共通認識が確認された。</li>
+                        <li>特に、ブルー大学がシンポジウムで指摘した主要課題(①救急外来のトリアージ効率化、②循環器領域での重症例の見逃し防止、③呼吸器疾患患者の再入院率低減)に対して、RedAidの診断支援機能とアラート機能が有効であると評価された。</li>
+                        <li>さらに、ブルー大学が推進する医療ツーリズムにおいても、RedAidの多言語問診や術後リモートフォロー機能が国際患者対応の質を高め、大学全体の競争力向上に資することが確認された。</li>
+                        <li>委員会は、RedAidの技術が単なる診断補助にとどまらず、臨床ガバナンス・教育体制・国際展開の各面において大学の高度化戦略を支える基盤となり得るとの点で合意に至った。</li>
+                    </ul>
+                </article>
+                <article>
+                    <h4>2. データ取扱い</h4>
+                    <ul>
+                        <li>個人情報を含むデータは一切国外に持ち出さないことを原則とする。</li>
+                        <li>学習はすべてフェデレーテッドラーニング方式で実施することを確認。</li>
+                    </ul>
+                </article>
+                <article>
+                    <h4>3. フェデレーテッドラーニングと合成データ</h4>
+                    <ul>
+                        <li>フェデレーテッドラーニングを導入することで、データを外部に持ち出すことなくAIを改善できることを両者で確認。これにより、患者情報の安全を守りながらも高精度の診断支援を実現できる。</li>
+                        <li>症例数が不足する領域については、合成データを補完的に利用することを条件付きで承認。</li>
+                    </ul>
+                </article>
+                <article>
+                    <h4>4. 文書化(モデルカード・RMP)</h4>
+                    <p>レッド社は以下を記載したモデルカードを整備し、ブルー大学に提供すること:</p>
+                    <ul>
+                        <li>想定目的・利用範囲</li>
+                        <li>性能指標(感度、特異度、限界など)</li>
+                        <li>既知のバイアスや失敗モード</li>
+                        <li>セキュリティ上の脆弱性と対策</li>
+                    </ul>
+                    <p>併せて、レッド社はリスクマネジメント計画(RMP)を作成し、RMPを更新した場合にはブルー大学に提供すること。</p>
+                </article>
+                <article>
+                    <h4>5. 監督と透明性</h4>
+                    <ul>
+                        <li>ブルー大学は、モデルカードおよびRMPの定期的な開示を求める。</li>
+                        <li>両者は四半期ごとに合同レビュー会議を実施し、進捗と遵守状況を確認する。</li>
+                    </ul>
+                </article>
+                <h3>結論</h3>
+                <ul>
+                    <li>RedAidは、ブルー大学が掲げる診療上の課題解決と医療ツーリズム戦略を含めた医療高度化に大いに寄与するとの合意が得られた。</li>
+                    <li>フェデレーテッドラーニングを基本方式として採用し、必要に応じて合成データを補完的に利用する。</li>
+                    <li>モデルカードとRMPの作成・開示を必須要件とする。</li>
+                    <li>定期的な合同レビューを実施し、安全性と透明性を担保する。</li>
+                </ul>
+            </article>
+        </section>
+
+        <section id="exhibit8" class="content-section">
+            <h2>別添８ RedAid概念実証試験(PoC)結果報告書</h2>
+            <div class="related-pages">関連ページ: <a href="#p-10">本文¶10</a></div>
+            <p><strong>作成日:</strong> 2024年3月31日</p>
+            <p><strong>作成者:</strong> ブルー大学データガバナンス委員会・レッド社技術部</p>
+            <article>
+                <h3>1. 背景</h3>
+                <p>ブルー大学とレッド社は、2023年秋の臨床AIシンポジウムにおける議論を踏まえ、AI診断支援ツール「RedAid」の有効性と安全性を検証するため、2024年1月〜3月の3か月間にわたりPoCを実施した。本試験は、救急外来・循環器科・呼吸器科を対象に行われた。</p>
+                <h3>2. 試験体制</h3>
+                <ul>
+                    <li><strong>主導機関:</strong> ブルー大学(臨床現場)</li>
+                    <li><strong>協力機関:</strong> レッド社(技術支援・教育・運用モニタリング)</li>
+                    <li><strong>対象診療科:</strong> 救急外来、循環器科、呼吸器科</li>
+                    <li><strong>対象患者数:</strong> 計1,200例</li>
+                </ul>
+                <h3>3. 検証項目と方法</h3>
+                <article>
+                    <h4>(1) 性能面</h4>
+                    <ul>
+                        <li>アラート応答時間の測定(秒単位)</li>
+                        <li>感度・特異度の統計評価</li>
+                        <li>偽陰性・偽陽性率の分析</li>
+                    </ul>
+                </article>
+                <article>
+                    <h4>(2) 運用面</h4>
+                    <ul>
+                        <li>Human-in-the-Loop (HITL)原則の遵守状況</li>
+                        <li>医師・看護師に対する教育と定着度合い</li>
+                        <li>操作ログ・AI出力の保存・監査可能性</li>
+                    </ul>
+                </article>
+                <article>
+                    <h4>(3) 安全・ガバナンス面</h4>
+                    <ul>
+                        <li>個人情報の匿名化・国内保管の確認</li>
+                        <li>フェデレーテッドラーニングの実装試験</li>
+                        <li>モデルカードおよびリスクマネジメント計画(RMP)の活用度</li>
+                    </ul>
+                </article>
+                <h3>4. 結果</h3>
+                <article>
+                    <h4>救急外来</h4>
+                    <ul>
+                        <li>平均アラート応答時間: 2.3秒 → 1.4秒に短縮</li>
+                        <li>重症例の見逃し率が統計的に有意に低下</li>
+                    </ul>
+                </article>
+                <article>
+                    <h4>循環器領域</h4>
+                    <ul>
+                        <li>感度: 85% → 91%</li>
+                        <li>上級医へのエスカレーション率が改善</li>
+                    </ul>
+                </article>
+                <article>
+                    <h4>呼吸器領域</h4>
+                    <ul>
+                        <li>再入院率が3か月で12%から9%に改善傾向</li>
+                    </ul>
+                </article>
+                <article>
+                    <h4>運用面</h4>
+                    <ul>
+                        <li>HITL原則が遵守され、AI単独で判断が行われたケースは確認されず</li>
+                        <li>医師・看護師の教育受講率は95%以上</li>
+                        <li>ログは全件保存され、監査可能な状態が維持された</li>
+                    </ul>
+                </article>
+                <article>
+                    <h4>安全・ガバナンス</h4>
+                    <ul>
+                        <li>個票データの国外移転は発生せず、匿名化処理が確認された</li>
+                        <li>フェデレーテッドラーニングによる学習更新が成功</li>
+                        <li>モデルカードとRMPが臨床現場で参照され、説明責任の基盤として機能</li>
+                    </ul>
+                </article>
+                <h3>5. 結論</h3>
+                <p>RedAidは、救急外来のトリアージ効率化、循環器領域での見逃し防止、呼吸器疾患における再入院率低減に有効であることが確認された。さらに、Human-in-the-Loop原則やデータガバナンス上の要件を満たし、ブルー大学の臨床現場における安全性・透明性を損なうことなく運用できることが実証された。</p>
+                <p>本PoCの成果を踏まえ、両者は2024年4月1日付でライセンス契約の締結に進むことを推奨する。</p>
+            </article>
+        </section>
+
+        <section id="exhibit9" class="content-section">
+            <h2>別添９ License Agreement</h2>
+            <div class="related-pages">関連ページ: <a href="#p-10">本文¶10</a></div>
+            <article class="document">
+                <p>Red Corporation (hereinafter referred to as "Licensor") and Blue University (hereinafter referred to as "Licensee") hereby agree as follows with respect to the use of the Al diagnostic support tool "RedAid."</p>
+                
+                <h4>Article 1 (Purpose)</h4>
+                <p>The purpose of this Agreement is to set forth the terms and conditions for the use of RedAid, in order to ensure patient safety and improve clinical efficiency.</p>
+                
+                <h4>Article 2 (Grant of License)</h4>
+                <p>The Licensor grants to the Licensee a non-exclusive, non-transferable license to use RedAid within the Licensee's hospital facilities.</p>
+                
+                <h4>Article 3 (Consideration)</h4>
+                <p>The Licensee shall pay the Licensor an annual license fee of USD 600,000.</p>
+                
+                <h4>Article 4 (Training)</h4>
+                <p>The Licensee shall conduct sufficient training for its personnel prior to the commencement of use.</p>
+                
+                <h4>Article 5 (Updates and Notifications)</h4>
+                <ol>
+                    <li> The Licensor shall provide software updates on a regular basis.</li>
+                    <li> The Licensee shall promptly apply such updates to all terminals and notify and train its personnel accordingly.</li>
+                    <li> The Licensee shall submit written confirmation of the completion of such updates and training.</li>
+                </ol>
+                
+                <h4>Article 6 (Safe Operation Obligation)</h4>
+                <p>The Licensee shall operate RedAid in a safe manner at all times and shall immediately apply any emergency patches provided by the Licensor.</p>
+                
+                <h4>Article 7 (Allocation of Responsibility)</h4>
+                <p>RedAid is a diagnostic support tool and does not replace the physician's final judgment. The Licensor shall endeavor to improve the performance of the tool, while the Licensee shall remain responsible for clinical decision-making.</p>
+                
+                <h4>Article 8 (Term and Termination)</h4>
+                <p>This Agreement shall be valid for three (3) years and shall automatically renew unless either Party notifies the other Party of its intention to terminate at least twelve (12) months in advance.</p>
+                
+                <h4>Article 9 (Confidentiality of Technical Information)</h4>
+                <ol>
+                    <li> The Licensee shall treat as strictly confidential all technical information disclosed by the Licensor in connection with RedAid, including but not limited to its performance, specifications, architecture, and algorithms.</li>
+                    <li> The Licensee shall not disclose, publish, or provide such information, whether directly or indirectly, to any third party without the prior written consent of the Licensor, except where disclosure is strictly required by law or a competent regulatory authority.</li>
+                </ol>
+                
+                <h4>Article 10 (Restriction on Anonymized and Synthetic Data)</h4>
+                <ol>
+                    <li> Unless and until the Licensee gives its prior written consent, the Licensor shall not generate, retain, or utilize anonymized data or synthetic data derived from the Licensee's patient information or related medical records.</li>
+                    <li> The Licensor's rights to retain information shall be limited to:
+                        <ul>
+                            <li>(i) system log data (e.g., access history, error logs, system availability); and</li>
+                            <li>(ii) aggregated metadata (e.g., usage volume, response times, performance statistics), provided that such data does not identify or enable the re-identification of any individual patient.</li>
+                        </ul>
+                    </li>
+                    <li> For the avoidance of doubt, any general rights of the Licensor to anonymized or synthetic data described in RedAid's product documentation shall not apply under this Agreement unless explicitly approved in writing by the Licensee.</li>
+                </ol>
+                
+                <h4>Article 11 (Governing Law and Arbitration)</h4>
+                <p>This Agreement shall be governed by UNIDROIT Principles for International Commercial Contracts 2016. Any disputes arising out of or in connection with this Agreement shall be finally settled by arbitration under the UNCITRAL Arbitration Rules. The seat of arbitration shall be Japan. The arbitral tribunal may seek expert opinions on purely technical matters.</p>
+                
+                <p><strong>Date:</strong> April 1, 2024</p>
+                <p><strong>Red Corporation:</strong><br>By: <em>(Signature)</em><br>Name: Hiromi Red<br>Title: President</p>
+                <p><strong>Blue University:</strong><br>By: <em>(Signature)</em><br>Name: Lin Blue<br>Title: Chancelor</p>
+            </article>
+        </section>
+
+        <section id="exhibit10" class="content-section">
+            <h2>別添10</h2>
+            <div class="related-pages">関連ページ: <a href="#p-10">本文¶10</a></div>
+            <article>
+                <h3>モデルカード抜粋 (RedAid v3.2.1)</h3>
+                <p><strong>製品名:</strong> RedAid-臨床支援版 (ツーリズム非対応)</p>
+                <p><strong>バージョン:</strong> v3.2.1 (2024年4月提供)</p>
+                <p><strong>開発者:</strong> Red Inc.</p>
+                <h4>目的</h4>
+                <ul>
+                    <li>救急外来におけるトリアージ効率化</li>
+                    <li>循環器領域における重大疾患の見逃し防止</li>
+                    <li>呼吸器疾患患者の再入院リスク予測</li>
+                </ul>
+                <h4>想定利用者・利用環境</h4>
+                <ul>
+                    <li>救急医、循環器・呼吸器内科医</li>
+                    <li>病院勤務の臨床看護師(トリアージ補助)</li>
+                    <li>環境: 病院内オンプレミスサーバー/アービトリア国内クラウド、電子カルテ連携端末</li>
+                </ul>
+                <h4>学習データの概要</h4>
+                <ul>
+                    <li>アービトリア国内で収集された臨床画像(CT・X線)および電子カルテ由来の構造化データ</li>
+                    <li>ネゴランド国内パートナー病院との共同研究による匿名化症例データ(契約上国内に保管、国外移転なし)</li>
+                </ul>
+                <h4>性能</h4>
+                <ul>
+                    <li>救急トリアージ感度: 90%(従来平均82%)</li>
+                    <li>循環器領域鑑別診断精度: AUC 0.87</li>
+                    <li>呼吸器領域再入院予測精度: 70%(従来65%)</li>
+                </ul>
+                <h4>標準推奨閾値</h4> 
+                <ul>
+                    <li>循環器疾患（NSTEMI含む）の「要注意」判定は 0.55（55%）以上に設定。「要注意」は⼊院観察を推奨。 </li>
+                    <li>0.40〜0.54 は「グレーゾーン」とし、再検査または⼊院観察を推奨。 </li>
+                    <li>以上は「⾼リスク」とし、即時⼊院・精査を推奨。</li> 
+                    <li>出荷時の初期設定はすべてこの標準推奨閾値に準拠。 </li>
+                </ul>
+                <h4>限界・失敗モード</h4>
+                <ul>
+                    <li>画像データの欠損や低解像度の場合、誤検知率上昇</li>
+                    <li>高齢患者・多疾患併存症例で予測性能が低下する傾向</li>
+                    <li>性能に記載のとおり、感度・制度は100％ではなく誤検知リスクや偽陰性の可能性あり</li>
+                    <li>AI出力を最終診断に用いることは禁止、必ず医師が確認する必要あり</li>
+                </ul>
+            </article>
+            <article>
+                <h3>リスクマネジメント計画(RMP)抜粋 (2024年4月版)</h3>
+                <p><strong>対象製品:</strong> RedAid v3.2.1</p>
+                <p><strong>適用法令:</strong> アービトリア国医療機器法、個人情報保護法、保健当局ガイダンス</p>
+                <h4>リスク特定</h4>
+                <ol>
+                    <li><strong>1. アップデート未適用リスク</strong>
+                        <p>臨床現場で旧版が残置された場合、誤診のリスク増大。</p>
+                    </li>
+                    <li><strong>2. 過度依存リスク</strong>
+                        <p>医師がAI出力を最終判断と誤解する可能性。</p>
+                    </li>
+                    <li><strong>3. データ保護リスク</strong>
+                        <p>個票データは国外移転禁止。国外クラウド利用なし。</p>
+                    </li>
+                </ol>
+                <h4>リスク低減策</h4>
+                <ul>
+                    <li><strong>アップデート管理:</strong> 定期配信+切替完了報告を必須化。</li>
+                    <li><strong>教育:</strong> Human-in-the-Loop原則を医師・看護師教育で徹底。</li>
+                    <li><strong>データ保護:</strong> 全ての個票データをアービトリア国内サーバーで保存・処理。国外移転は契約上禁止。</li>
+                </ul>
+                <h4>モニタリング・レビュー</h4>
+                <ul>
+                    <li>年1回の外部専門家レビュー。</li>
+                    <li>臨床事故報告が発生した場合は直ちにリスク評価を再実施。</li>
+                </ul>
+            </article>
+        </section>
+<section id="exhibit11" class="content-section">
+            <h2>別添11</h2>
+            <div class="related-pages">関連ページ: <a href="#p-11">本文¶11</a></div>
+            <article class="document">
+                <h3>件名: RedAid v3.3.0 重大アップデートの適用について (至急対応要請)</h3>
+                <p><strong>発信者:</strong> Red Inc. (レッド社)</p>
+                <p><strong>宛先:</strong> ブルー大学 医療情報システム部門/臨床統治部門</p>
+                <p><strong>⽇時：</strong>2024年4⽉15⽇15時</p>
+                    <div class="callout note">
+                        <p><strong>注：</strong>ネゴランド国とアービトリア国の間には時差はない</p></div>
+                <hr>
+                <p>平素より RedAidのご利用に際し、格別のご協力を賜り厚く御礼申し上げます。</p>
+                <p>このたび、当社は RedAid v3.3.0 を正式リリースいたしました。本アップデートは、循環器・呼吸器領域における重大疾患の検知性能向上を目的としており、旧版 (v3.2.1) には残存していた誤検知リスク (特に偽陰性率の高さ)を是正する重要な改修を含んでおります。</p>
+                <h4>【主な改修内容】</h4>
+                <ol>
+                    <li><strong>1. 循環器モジュールの識別閾値調整</strong>
+                        <p>○心筋梗塞・不整脈の検知における偽陰性率を約20%低減。</p>
+                    </li>
+                    <li><strong>2. 呼吸器モジュールのアルゴリズム最適化</strong>
+                        <p>○肺炎・肺塞栓症に関する早期警告の精度を強化。</p>
+                    </li>
+                    <li><strong>3. システム安定性の改善</strong>
+                        <p>○大規模アクセス時のセッション管理強化。</p>
+                        <p>○ログ保存と監査機能を拡張。</p>
+                    </li>
+                </ol>
+                <h4>【適用義務】</h4>
+                <ul>
+                    <li>ライセンス契約第5条に基づき、本アップデートは全端末に速やかに適用いただく必要があります。</li>
+                    <li><strong>適用期限:</strong> 2024年4月25日まで</li>
+                    <li>切替完了後10日以内に、切替完了報告書を当社にご提出ください。</li>
+                </ul>
+                <h4>【未適用の場合のリスク】</h4>
+                <p>旧版 (v3.2.1) を継続利用した場合、臨床現場における診断支援の信頼性が低下し、患者安全に影響を与える恐れがあります。これにより、契約上の安全運用義務違反に問われる可能性もありますので、必ず期限内にアップデートを完了させてください。</p>
+                <p>本アップデートに関する詳細な技術文書および教育用資料は、専用ポータルにてダウンロード可能です。必要に応じ、当社技術スタッフによる遠隔サポートも承ります。</p>
+                <p>何卒、期限内の確実な適用をお願い申し上げます。</p>
+            </article>
+        </section>
+
+        <section id="exhibit12" class="content-section">
+            <h2>別添12 症例記録(救急症例X、2024年4月18日)</h2>
+            <div class="related-pages">関連ページ: <a href="#p-12">本文¶12</a></div>
+            <article>
+                <h3>患者情報</h3>
+                <ul>
+                    <li><strong>年齢:</strong> 62歳</li>
+                    <li><strong>性別:</strong> 男性</li>
+                    <li><strong>来院：</strong>2024年4⽉16⽇</li>
+                    <li><strong>主訴:</strong> 胸痛、呼吸困難</li>
+                    <li><strong>来院時バイタル:</strong> BP 138/82、HR 104、SpO2 93%、体温 37.2℃</li>
+                </ul>
+                <h3>利用システム</h3>
+                <ul>
+                    <li><strong>使用AIツール:</strong> RedAid</li>
+                    <li><strong>バージョン:</strong> v3.2.1 (旧版、未更新端末)</li>
+                </ul>
+                <h3>AI出力</h3>
+                <ul>
+                    <li><strong>判定結果:</strong> 「低リスク (入院不要)」</li>
+                    <li><strong>提示鑑別疾患:</strong> 軽度心不全、非特異的胸痛</li>
+                    <li><strong>推奨行動:</strong> 外来フォロー可</li>
+                </ul>
+                <h3>診療経過</h3>
+                <ul>
+                    <li><strong>担当医メモ:</strong> 「AIの出力を参考に外来対応とした。症状は軽快傾向」</li>
+                    <li><strong>追加検査:</strong> 心電図 (異常所見なし)、血液検査(トロポニンとBNPの軽度上昇のみ)</li>
+                    <li><strong>上級医エスカレーション:</strong> 未実施</li>
+                    <li><strong>CT検査:</strong> 依頼せず</li>
+                    <li><strong>⼼エコー：</strong>依頼せず</li>
+                </ul>
+                <h3>転帰</h3>
+                <ul>
+                    <li>4⽉17⽇午前、患者が自宅で急変。救急搬送され再来院。</li>
+                    <li>集中治療室に収容されるも心停止に至り、4⽉18⽇早朝死亡。</li>
+                </ul>
+            </article>
+        </section>
+
+        <section id="exhibit13" class="content-section">
+            <h2>別添13 ブルー大学内部調査報告書(案) - 患者X死亡事案</h2>
+            <div class="related-pages">関連ページ: <a href="#p-12">本文¶12</a></div>
+            <p><strong>作成日:</strong> 2024年7月2日</p>
+            <p><strong>作成者:</strong> ブルー大学 院内事故調査委員会</p>
+            <article>
+                <h3>事案の概要</h3>
+                <p>患者X(62歳男性)は2024年4月16日、胸痛と呼吸困難を訴えて救急外来を受診した。救急外来端末に旧版 RedAid (v3.2.1) が残置されていたため、担当医はその出力を参照し「低リスク」と判断した。入院観察は実施されず、患者は翌日に自宅で急変し、再来院後に死亡した。死因は⾮ST上昇型⼼筋梗塞。</p>
+                <h3>調査経過</h3>
+                <ul>
+                    <li><strong>端末状況:</strong> 救急外来の端末 ID3421 はアップデート未適用で（他部⾨の端末も同様）、v3.2.1が稼働していた。自動更新はオフであり（初期設定のまま）、更新状況を一元管理する仕組みも不十分だった。</li>
+                    <li><strong>AI出力の影響:</strong> 旧版 RedAid の出力は「低リスク」との評価を示し、追加検査(CTや⼼エコーなど)を回避する判断に直結した。</li>
+                    <li><strong>通知の問題:</strong> レッド社からアップデート通知はあったものの、切替手順や確認方法が十分に具体化されていなかった。</li>
+                </ul>
+                <h3>委員会の所見</h3>
+                <p>追加の精密検査（例：連続的な⼼筋トロポニン測定や⼼エコー等）を実施していた場合、本症例における⾮ST上昇型⼼筋梗塞（NSTEMI）を診断し得た可能性が⾼く、適切な治療介⼊が⾏われ、死亡を回避し得た可能性が⾼いと考えられる。</p>
+                <p>本件の直接的な要因は、旧版利用による誤判定である。しかしながら、旧版を使用したからといって死亡事故に至るような不備が生じること自体、AI診断支援システムとして許容できない。</p>
+                <p>すなわち、RedAidには何らかの構造的欠陥が存在する可能性を否定できない。システムが更新状態に依存して安全性を著しく損なう設計は、根本的に問題があると考えられる。</p>
+                <p>さらに、アルゴリズム自体に根本的な欠陥があったか否かについては、本委員会の調査だけでは判断できない。</p>
+                <h3>暫定結論</h3>
+                <ul>
+                    <li>本事案は、運用不備と教育不足に加え、RedAid の設計そのものに潜在的な構造的欠陥があった可能性が高い。</li>
+                    <li>今後の結論確定には、外部専門家による独立した再調査を行い、アルゴリズムの根幹に欠陥が存在するか否かを検証する必要がある。</li>
+                    <li>本件に関する最終的な責任の所在は、当該外部調査の結果を踏まえて再度検討すべきである。</li>
+                </ul>
+            </article>
+        </section>
+
+        <section id="exhibit14" class="content-section">
+            <h2>別添14 協議記録</h2>
+            <div class="related-pages">関連ページ: <a href="#p-12">本文¶12</a></div>
+            <p><strong>日付:</strong> 2024年7月5日</p>
+            <p><strong>場所:</strong> ブルー大学 本部会議室</p>
+            <article>
+                <h3>出席者</h3>
+                <ul>
+                    <li><strong>レッド社:</strong> 最高技術責任者(CTO)、法務部長、医療AI部門責任者</li>
+                    <li><strong>ブルー大学:</strong> 病院長、臨床統治部長、法務部次長、事故調査委員会委員長</li>
+                </ul>
+                <h3>協議冒頭</h3>
+                <p><strong>ブルー大学 病院長:</strong></p>
+                <blockquote>「本日は、症例Xに関する内部調査委員会の報告書案を踏まえ、御社と意見交換を行いたいと思います。本報告書案は暫定的なものであり、御社の意見を伺った上で修正を加え、最終版を策定する予定です。」</blockquote>
+                <h3>議事概要</h3>
+                <p><strong>ブルー大学 臨床統治部長:</strong></p>
+                <blockquote>「今回の問題は、契約締結直後に重大なアップデートが発表されたことに端を発しています。4月1日に契約締結し、わずか2週間後の4月15日にリリースされたv3.3.0は、偽陰性率の大幅低減を目的としていました。これは、旧版v3.2.1 が契約締結時に提供されたモデルカードに記載された水準すら満たしていなかった、すなわちモデルカードに反する欠陥があったことを意味するのではないでしょうか。」</blockquote>
+                <p><strong>ブルー大学 法務部次長:</strong></p>
+                <blockquote>「しかも、これは初めてのアップデートであり、院内の職員は更新手順に不慣れでした。当⼤学では4月16日に御社に遠隔サポートを要請しており、4月17日に対応が予定されていました。しかし、問題の症例は4月16日の夜間に発生しました。つまり、アップデート適用前の状態で誤診が生じたのは、大学側の過失ではなく、旧版がモデルカードの説明に反して欠陥を有していたためです。」</blockquote>
+                <p><strong>ブルー大学 事故調査委員会委員長:</strong></p>
+                <blockquote>「さらに、当該症例を担当した救急医師は、アップデートの存在を知らされていませんでした。アップデート義務を大学に課す以上、御社には周知と教育の責任があります。この点も欠けていたのではないでしょうか。」</blockquote>
+                <p><strong>レッド社 CTO:</strong></p>
+                <blockquote>「旧版に一定の限界があったこと、そしてv3.3.0で改善を行ったことは認めます。しかし、モデルカードにも“誤検知リスクや偽陰性の可能性がある”と明記しており、欠陥を隠していたわけではありません。ライセンス契約第5条では、アップデートを速やかに全端末に適用するのは大学側の義務とされています。旧版が残置され、症例Xで利用されたのは御校の責任です。」</blockquote>
+                <p><strong>レッド社 医療AI部門責任者:</strong></p>
+                <blockquote>「さらに強調したいのは、RedAid は診断を代替する機器ではなく補助機器であるという点です。PoCから契約締結に至るまで、Human-in-the-Loop 原則を徹底的に説明してきました。AI出力を鵜呑みにして退院判断を行ったのは医師の誤判断です。」</blockquote>
+                <p><strong>ブルー大学 臨床統治部長:</strong></p>
+                <blockquote>「我々の医師は当初予定された範囲内でAIを利用したに過ぎません。もし過度に依存したと見えるなら、それは御社が“どの程度信頼できるのか”を十分に説明しなかったためです。とりわけ、旧版がモデルカードに沿わない性能を示していたことが事故の根本原因であり、御社の責任は免れません。」</blockquote>
+                <p><strong>レッド社 医療AI部⾨責任者：</strong></p> 
+                <blockquote>「いずれにせよ、内部調査報告書の内容については詳細な検討が必要です。当社としての⾒解は別途伝えるので、それまでは公表したり外部に流出したりすることのないようにしてください。このような⽂書が流出すると現在交渉中の新規契約に影響を与える可能性があります。勝⼿に公表したら損害賠償を請求します。」 </blockquote>
+                <p><strong>ブルー⼤学 臨床統治部⻑： </strong></p>
+                <blockquote>「わかりました。」</blockquote>
+                <h3>結論</h3>
+                <ul>
+                    <li>ブルー大学は、旧版v3.2.1 がモデルカードで説明された性能水準を満たさず、事実上欠陥を有していたこと、また周知・教育が不十分だったことを強調。</li>
+                    <li>レッド社は、旧版の限界は認めつつもモデルカードに明記された範囲内であり、アップデート適用を怠った大学の運用責任と医師の判断ミスが事故の直接的原因であると主張。</li>
+                    <li>双方の見解は平行線をたどった。</li>
+                    <li>内部報告書案については、引き続き協議を行い、最終版を策定することとされた。</li>
+                </ul>
+            </article>
+        </section>
+
+        <section id="exhibit15" class="content-section">
+            <h2>別添15 SNS投稿および業界誌記事</h2>
+            <div class="related-pages">関連ページ: <a href="#p-13">本文¶13</a></div>
+            <article>
+                <h3>SNS投稿</h3>
+                <blockquote>
+                    <p>「ブルー大学の内部報告書が流出! RedAid は旧版利用で死亡事故を引き起こす“構造的欠陥”があるとの記載。アルゴリズムに根本的な問題がある可能性が否定できないと大学委員会が指摘。こんなツールをまだ使い続けていいのか?」</p>
+                    <cite>– アービトリア国の医学ジャーナリストによる投稿。様々な国の医学ジャーナリストによって引用された。</cite>
+                </blockquote>
+            </article>
+            <article>
+                <h3>業界誌記事 (2024年7月号)</h3>
+                <div class="document">
+                    <h4>見出し:「RedAid に構造的欠陥の可能性 ブルー大学事故調査案が指摘」</h4>
+                    <p>ブルー大学病院で発生した患者死亡事故に関する院内事故調査委員会の草稿が流出した。草稿には、旧版 RedAid (v3.2.1) の利用が誤判定を招いたことが死亡事故の一因であるとしつつ、「旧版利用によって死亡事故が起きるような不備は許容されず、RedAidには構造的欠陥があると見るべき」 との厳しい表現が含まれていた。さらに、アルゴリズムに根本的な欠陥が存在するかどうかについては、外部専門家による独立した再調査が必要と記載されている。</p>
+                    <p>この記述はSNS上で瞬く間に拡散し、「AIに命を預けるのは危険だ」との批判が広がった。複数の医療機関は RedAidの導入契約を延期・中止する判断を下しており、レッド社の信用に深刻な影響を及ぼしている。業界関係者の間では、AI医療機器の安全性確保とアップデート管理の在り方について、改めて議論が高まっている。</p>
+                </div>
+            </article>
+        </section>
+<section id="exhibit16" class="content-section">
+            <h2>別添16 外部専門家レポート</h2>
+            <div class="related-pages">関連ページ: <a href="#p-14">本文¶14</a></div>
+            <p><strong>日付:</strong> 2024年8月31日</p>
+            <p><strong>作成者:</strong> 医療AI評価センター (独立第三者機関)</p>
+            <article>
+                <p><strong>対象:</strong> RedAid 診断支援ツール (旧版v3.2.1 および最新版v3.3.0)</p>
+                <h3>1. 検証目的</h3>
+                <p>本検証は、救急症例Xに関連して旧版 RedAid (v3.2.1) に重大な欠陥が存在したか否かを明らかにし、最新版 (v3.3.0) における改善状況を評価することを目的とした。</p>
+                <h3>2. 検証方法</h3>
+                <ul>
+                    <li>過去症例データ (ブルー大学提供)を用いた再現実験</li>
+                    <li>アルゴリズムの識別閾値設定と誤判定率の比較</li>
+                    <li>バージョン間 (v3.2.1 と v3.3.0) の性能評価試験</li>
+                    <li>外部臨床専門家(循環器・救急医学)のレビュー</li>
+                </ul>
+                <h3>3. 検証結果</h3>
+                <article>
+                    <h4>(1) 旧版v3.2.1 について</h4>
+                    <ul>
+                        <li>循環器疾患におけるリスク評価の閾値が不十分に設定されており、一部の症例で「低リスク」と誤判定する傾向が確認された。⾮ST上昇型⼼筋梗塞については、モデルカードに記載のとおり、本来であれば55％以上を要注意判定と設定されているべきところ、レッド社の初期設定のミスにより70％と設定されていた。このエラーの結果、正常な設定（55％）なら「要注意」と判定される患者群が、誤設定（70％）では「低リスク」扱いになり、追加検査や⼊院観察の推奨がなされなくなってしまった。</li>
+                        <li>本件事故(救急症例X) と同様のケースでは、入院観察を推奨しない誤出力が再現され、死亡事故に直結し得る欠陥が存在したと判断される。</li>
+                    </ul>
+                </article>
+                <article>
+                    <h4>(2) 最新版v3.3.0 について</h4>
+                    <ul>
+                        <li>閾値設定が見直され、誤判定率が有意に低下。</li>
+                        <li>再現実験において同様の症例で「入院観察推奨」と判定され、欠陥は解消されていることが確認された。</li>
+                    </ul>
+                </article>
+                <article>
+                    <h4>(3) 構造的欠陥の有無</h4>
+                    <ul>
+                        <li>アルゴリズム全体の設計において、致命的な構造的欠陥は認められなかった。</li>
+                        <li>旧版における不備は閾値設定に関する限定的な問題であり、アップデートにより改善済みである。</li>
+                    </ul>
+                </article>
+                <h3>4. 結論</h3>
+                <ul>
+                    <li>旧版v3.2.1 には欠陥が存在し、臨床判断を誤らせる可能性があった。</li>
+                    <li>最新版v3.3.0において当該欠陥は解消されている。</li>
+                    <li>アルゴリズムの根本的な構造自体に致命的な問題は認められなかった。</li>
+                    <li>再発防止のため、今後もアップデートの適用状況確認およびユーザー教育を徹底することが望まれる。</li>
+                </ul>
+            </article>
+        </section>
+
+        <section id="exhibit17" class="content-section">
+            <h2>別添17</h2>
+            <div class="related-pages">関連ページ: <a href="#p-15">本文¶15</a></div>
+            <article class="document">
+                <p><strong>日付:</strong> 2024年9月10日</p>
+                <p><strong>宛先:</strong> ブルー大学</p>
+                <p><strong>差出人:</strong> レッド社</p>
+                <h3>件名: RedAid について</h3>
+                <hr>
+                <p>当社は、2024年4月1日付で締結された 「RedAid ライセンス契約」(以下「本契約」といいます)に基づき、AI診断支援ツール 「RedAid」 を貴大学に提供してまいりました。</p>
+                <p>本契約第9条第1項および第2項には、RedAidの性能、仕様、アルゴリズム等に関する情報を秘密として取り扱い、当社の事前承諾なく第三者に提供・開示・漏洩してはならない旨が明記されています。</p>
+                <p>ところが、2024年7月2日に作成された貴大学内部の内部調査報告書案が外部に流出し、その中に RedAidのアルゴリズムに根本的欠陥がある可能性がある旨の記載が含まれていました。この記載は事実に反するものであり、外部に漏洩した結果、SNSや業界誌を通じて広く拡散され、当社の信用は重大に毀損しました。</p>
+                <p>これにより、当社は複数の病院・研究機関との契約交渉を失い、逸失利益を含む多大な損害を被りました。具体的には以下のとおりです。</p>
+                <ul>
+                    <li>契約中止・延期による逸失利益: USD 2,400,000</li>
+                    <li>広報・危機対応等の追加費用: USD 200,000</li>
+                </ul>
+                <p><strong>合計損害額: USD 2,600,000</strong></p>
+                <p>以上を踏まえ、当社は貴大学に対し、上記金額の損害賠償を請求いたします。本書受領後30日以内に当社指定口座へお支払いください。</p>
+                <p>誠意ある対応がなされない場合には、当社は契約に基づき然るべき法的措置を講じる所存です。</p>
+
+                <div class="callout note">
+                    <p><strong>注：</strong>内部調査報告書案、SNS、業界誌を⾒たことを直接の理由にRedAidの契約を中⽌・延期した病院が存在したこと（これらの病院はその後も契約には⾄っていない）、及び、広報・危機対応に費⽤を要したことは、証拠により証明されている。 </p>
+                </div>
+                <div class="callout note">
+                    <p><strong>注：</strong>ネゴランド国法によれば、レッド社は⾃社の医療機器に関して発⽣した死亡事故について、調査の完了後1カ⽉以内に調査報告書を⾃社のウェブサイトに掲載する義務を負う。本件でも、8⽉31⽇の独⽴第三者機関の報告書に沿った内容のレッド社が作成した報告書を期限内に掲載している。アービトリア国法には同様の規定はない。 </p>
+                </div>
+            </article>
+        </section>
+
+        <section id="exhibit18" class="content-section">
+            <h2>別添18</h2>
+            <div class="related-pages">関連ページ: <a href="#p-15">本文¶15</a></div>
+            <article class="document">
+                <p><strong>日付:</strong> 2024年9月20日</p>
+                <p><strong>宛先:</strong> レッド社</p>
+                <p><strong>差出人:</strong> ブルー大学</p>
+                <h3>件名: RedAid について</h3>
+                <hr>
+                <p>当大学は、2024年9月10日付の貴社請求書を受領しましたが、その請求を受け入れることはできません。理由は以下のとおりです。</p>
+                <h4>秘密保持義務違反は成立しない</h4>
+                <p>内部調査報告書案は、RedAidのアルゴリズムや仕様を直接開示するものではなく、あくまで院内の暫定的な検討資料です。ライセンス契約第9条に定める「秘密情報」の漏洩には該当しません。</p>
+                <h4>流出の性質</h4>
+                <p>報告書案の外部流出は当大学の故意によるものではなく、不測の事態によるものでした。本契約の禁止は「無断で第三者に開示する行為」を対象とするものであり、本件を契約違反とみなすことはできません。</p>
+                <h4>患者補償の実施</h4>
+                <p>4月16日から18日にかけての症例では、著名な企業経営者であり、年収300万米ドルの患者が死亡しました。ご遺族は訴訟も辞さないとの構えでしたが、当⼤学の弁護⼠とも相談し、社会的影響の大きさを踏まえ、当大学は遺族に対して慰謝料200万米ドルを支払い済みです。この支出は、RedAid 旧版に残存していた欠陥の影響を踏まえたものです。</p>
+                <div class="callout note">
+                    <p><strong>注：</strong>慰謝料200万米ドルが実際に遺族に対して支払われたことについては領収書等によって証明されており、当事者間に争いがない。</p>
+                </div>
+                <h4>RedAid 利用停止に伴う返還請求</h4>
+                <p>事故後、当大学は外部専門家の検証結果が出るまでの間、RedAidの利用を停止せざるを得ませんでした。これにより、4月18日から9月18日までの5月間にわたり、当大学は対価に見合うサービスを受けていません。利用料は1年分をまとめて既にお支払いしていますが、当該期間に対応する利用料については返還されるべきです。外部専門家のレポートにより最新版での欠陥解消が確認され、その後利用を再開しております。</p>
+                <hr>
+                <p>以上より、当大学は貴社の請求を否認するとともに、(i) 当大学が支払った患者遺族への慰謝料200万米ドルの負担についての補填、(ii)利用停止期間に相当する既払いの利用料5か月分である25万米ドルの⽀払を貴社に対し求めるものです。</p>
+            </article>
+        </section>
+
+        <section id="exhibit19" class="content-section">
+            <h2>別添19 協議記録</h2>
+            <div class="related-pages">関連ページ: <a href="#p-17">本文¶17</a></div>
+            <p><strong>日時:</strong> 2025年1月15日</p>
+            <p><strong>場所:</strong> ブルー大学 本部会議室 (オンライン接続あり)</p>
+            <article>
+                <h3>出席者</h3>
+                <ul>
+                    <li><strong>【ブルー大学】</strong> IT部門長, 臨床統治部代表, 法務部副部長</li>
+                    <li><strong>【レッド社】</strong> 最高技術責任者(CTO), システム設計責任者</li>
+                </ul>
+                <h3>議事内容</h3>
+                <p><strong>ブルー大学 IT部門長:</strong></p>
+                <blockquote>「まず、こちらの要件を改めて整理します。我々は国際医療ツーリズムのために、少なくとも10言語に対応し、CTやMRIといった高精細画像をリアルタイムで処理できることを求めています。また、ピーク時には同時に500人以上の患者がアクセスすることも想定しています。なお、貴社のシステムを用いた医療ツーリズムの抜本的なレベルアップは、2025年7月の開始を予定しています。」</blockquote>
+                <p><strong>レッド社 CTO:</strong></p>
+                <blockquote>「ありがとうございます。要件は理解しました。ただ、正直に申し上げると、アービトリア国内の既存クラウドやオンプレミス設備だけでは、希望の要件を実現できない可能性があります。特に画像解析については遅延が数分単位に及ぶリスクが高いです。」</blockquote>
+                <p><strong>ブルー大学 臨床統治部代表:</strong></p>
+                <blockquote>「数分単位の遅延は臨床現場では致命的です。患者への説明責任を果たせなくなります。御社として解決策はあるのでしょうか?」</blockquote>
+                <p><strong>レッド社 システム設計責任者:</strong></p>
+                <blockquote>「はい。当社がネゴランド国内で契約している高性能クラウドを部分的に利用すれば、処理速度の問題は解決できます。ただし、これは患者データの一部が国外に保存されることを意味します。契約条項でデータ保護をどう扱うかが重要になります。」</blockquote>
+                <p><strong>ブルー大学 法務部副部長:</strong></p>
+                <blockquote>「ご存じのとおり、アービトリア国の個人情報保護法は国外移転を原則禁止しています。過去に大手病院が国外クラウドを利用して行政処分を受けた前例もあります。契約書には、越境移転を禁止する明文規定を入れる必要があるでしょう。」</blockquote>
+                <p><strong>レッド社 CTO:</strong></p>
+                <blockquote>「理解しています。ただし、性能を確保するためには国外クラウドの利用が事実上不可欠です。その場合、契約条項と実際の運用に矛盾が生じるのではないでしょうか。」</blockquote>
+                <p><strong>ブルー大学 IT部門長:</strong></p>
+                <blockquote>「確かに条項上は厳格に書かざるを得ません。ただし、アービトリア法にも例外はあります。AI学習や国際共同研究のためであれば、当局が一定の運用を認めるケースもあると理解しています。現場が回らなくなるようでは本末転倒です。」</blockquote>
+                <p><strong>ブルー大学 法務部副部長:</strong></p>
+                <blockquote>「ただし、それはあくまで“例外”です。最終的に監督当局がどう判断するかは保証できません。我々は大学としてリスクを負う立場にありますから、契約上は移転禁止を明記し、必要があれば後で協議する余地を残すのが妥当だと思います。」</blockquote>
+                <p><strong>レッド社 CTO:</strong></p>
+                <blockquote>「承知しました。契約条項としては“越境移転禁止”と明記する一方で、運用面では例外があり得るという大学側の理解を前提に設計を検討することにいたします。」</blockquote>
+                <p><strong>ブルー大学 臨床統治部代表:</strong></p>
+                <blockquote>「臨床の観点からは、処理速度と正確性を確保することが最優先です。そのうえで法務・ITが調整するのであれば、私は賛同します。」</blockquote>
+                <blockquote>「医療ツーリズムは、患者の信頼と大学のブランドに直結します。一度でもシステム停止があれば、国際的な信用を失います。そのため、少なくとも3年間は安定的にサービスを継続していただく必要があります。途中で停止することは絶対に避けたいのです。」</blockquote>
+                <p><strong>レッド社 CTO:</strong></p>
+                <blockquote>「その点については理解しています。当社としても長期的な協力を前提としていますので、3年間は必ず提供を継続することを約束いたします。その後の更新については、双方で協議して合意する形でよろしいでしょうか。」</blockquote>
+                <p><strong>ブルー大学 IT部門長:</strong></p>
+                <blockquote>「はい、それで結構です。契約書には3年間の継続提供を明記し、その後の更新については協議条項を設けるようにしましょう。」</blockquote>
+                <h3>追加確認事項</h3>
+                <p>実際に、ブルー大学が求めた仕様は非常に高い水準であった。</p>
+                <ul>
+                    <li>① 患者の母国語による多言語インターフェイス (少なくとも10言語対応)</li>
+                    <li>② CT・MRIなど高解像度画像を用いたリアルタイム処理</li>
+                    <li>③ 一度に数百人単位でアクセスが集中しても遅延が発生しない同時接続処理能力</li>
+                </ul>
+                <p>これらをすべて満たすためには、アービトリア国内のオンプレミス設備や国内クラウドのみでは限界があり、処理能力が追いつかず応答時間が数分単位に膨らむ可能性が高いこと等が指摘された。</p>
+                <p>レッド社は、このように高いスペックを満たすには国外クラウドの利用という「例外」が不可欠であると強く主張した。</p>
+                <h3>結論</h3>
+                <ul>
+                    <li>契約書には「患者データの国外移転禁止」を明記する。</li>
+                    <li>レッド社は性能要件を満たすために国外クラウド利用の必要性を強調。</li>
+                    <li>ブルー大学IT部門長は「例外的に認められる可能性」に言及。</li>
+                    <li>双方は「契約上は禁止、運用面では調整余地あり」という理解を共有した。</li>
+                </ul>
+            </article>
+        </section>
+
+        <section id="exhibit20" class="content-section">
+            <h2>別添20 Medical Tourism Services Addendum</h2>
+            <div class="related-pages">関連ページ: <a href="#p-17">本文¶17</a></div>
+            <article class="document">
+                <p><strong>Addendum to RedAid License Agreement</strong></p>
+                <p>This Addendum ("Addendum") forms an integral part of the RedAid License Agreement dated April 1, 2024 (the "Main Agreement") between Red Corporation ("Provider") and Blue University ("Licensee"). This Addendum shall be interpreted in accordance with the provisions of the Main Agreement.</p>
+                <h4>Article 1 (Purpose and Scope)</h4>
+                <ol>
+                    <li> This Addendum applies to the use of RedAid in connection with medical tourism services.</li>
+                    <li> Medical tourism services covered by this Addendum include:
+                        <ul>
+                            <li>(i) Pre-travel symptom input and risk assessment;</li>
+                            <li>(ii) Provision of second opinions;</li>
+                            <li>(iii) Post-operative remote follow-up;</li>
+                            <li>(iv) Multilingual support for international patients.</li>
+                        </ul>
+                    </li>
+                </ol>
+                <h4>Article 2 (Revenue Sharing)</h4>
+                <ol>
+                    <li>1. Licensee shall collect package fees and other revenues from medical tourism patients.</li>
+                    <li>2. Such revenues shall be shared as follows: 70% to Licensee, 30% to Provider.</li>
+                    <li>3. Revenue sharing shall be based on verifiable reports subject to audit, as mutually agreed by the Parties.</li>
+                </ol>
+                <h4>Article 3 (Additional Obligations)</h4>
+                <ol>
+                    <li>1. Provider shall:
+                        <ul>
+                            <li>(i) Ensure 
+                                <ul>
+                                    <li>(a) functionality in at least ten (10) languages;</li> 
+                                    <li>(b) real-time processing using high-resolution images such as CT and MRI, and (c) concurrent connection processing capability so that even if five hundred people access simultaneously, no delays occur;</li>
+                                </ul>
+                            </li>
+                            <li>(ii) Establish a dedicated support line for international patients;</li>
+                            <li>(iii) Maintain modules for pre-travel assessment and post-operative follow-up.</li>
+                        </ul>
+                    </li>
+                    <li>2. Licensee shall:
+                        <ul>
+                            <li>(i) Obtain explicit informed consent from international patients regarding the use of AI diagnostic support;</li>
+                            <li>(ii) Ensure that all clinical judgments and treatment decisions remain the responsibility of qualified medical professionals.</li>
+                        </ul>
+                    </li>
+                </ol>
+                <h4>Article 4 (Data Management)</h4>
+                <ol>
+                    <li>1. Patient Data relating to patients shall be stored and processed exclusively within Arbitoria, in accordance with Article 10 of the Main Agreement.</li>
+                    <li>2. Provider may use anonymized and aggregated data for product improvement, subject to Licensee's oversight.</li>
+                    <li>3. Licensee shall supervise such use to ensure compliance with applicable laws and ethical standards.</li>
+                </ol>
+                <h4>Article 5 (Additional Fees and Remuneration)</h4>
+                <ol>
+                    <li>1. In consideration of the services under this Addendum, Licensee shall pay Provider an additional annual fee of USD 600,000.</li>
+                    <li>2. In the event that urgent technical measures are required to ensure the quality of the service and/or to comply with relevant laws and regulations, the Parties shall negotiate in good faith regarding the allocation of associated costs.</li>
+                </ol>
+                <h4>Article 6 (Adjustment of License Fees in Case of Cost Increases)</h4>
+                <ol>
+                    <li>1. If the Provider incurs a substantial and reasonable increase in costs directly attributable to:
+                        <ul>
+                            <li>(i) compliance with changes in applicable laws or regulations;</li>
+                            <li>(ii) technical requirements expressly requested by the Licensee; or</li>
+                            <li>(iii) unforeseeable technical measures necessary to ensure the continued provision of the RedAid system,</li>
+                        </ul>
+                        the Provider may request a reasonable increase of the license fee. Upon such request, the Parties shall in good faith negotiate and agree on the adjusted license fee.
+                    </li>
+                    <li>2. The Provider shall submit documentation evidencing the relevant cost increase, and the Parties shall endeavor to reach an agreement within thirty (30) days from the date of such submission.</li>
+                </ol>
+                <h4>Article 7 (Risk Allocation)</h4>
+                <ol>
+                    <li>1. Licensee shall bear responsibility for any medical errors or malpractice.</li>
+                    <li>2. Provider shall be responsible for damages caused by system failures, security breaches, or other technical defects attributable to RedAid, subject to the liability cap in Article 7 of the Main Agreement.</li>
+                    <li>3. In the event of reputational damage relating to international patients, the Parties shall coordinate and issue joint public communications.</li>
+                </ol>
+                <h4>Article 8 (Minimum Term of Service for Medical Tourism Program)</h4>
+                <ol>
+                    <li>1. The Provider shall ensure the continuous and stable provision of RedAid services for medical tourism purposes for a fixed term of three (3) years commencing from the Effective Date of this Special Agreement.</li>
+                    <li>2. During this three-year period, the Provider shall not suspend or terminate the provision of services except in cases of force majeure or material breach by the Licensee.</li>
+                    <li>3. Upon the expiration of the three-year period, the Parties shall, in good faith, enter into negotiations to renew or extend the Agreement under mutually agreed terms.</li>
+                </ol>
+                <h4>Article 9 (Termination)</h4>
+                <ol>
+                    <li>1. This Addendum shall enter into force on the same date as the Main Agreement and remain in effect for the duration thereof.</li>
+                    <li>2. Either Party may terminate this Addendum independently, upon six (6) months' prior written notice, without prejudice to the validity of the Main Agreement.</li>
+                    <li>3. Termination of this Addendum shall not affect the continuation of the Main Agreement.</li>
+                </ol>
+                <h4>Article 10 (Miscellaneous)</h4>
+                <ol>
+                    <li>1. Matters not specifically provided for in this Addendum shall be governed by the Main Agreement.</li>
+                    <li>2. In case of inconsistency between this Addendum and the Main Agreement, the provisions of this Addendum shall prevail.</li>
+                </ol>
+                <h4>Article 11 (Governing Law and Arbitration)</h4>
+                <p>This Agreement shall be governed by UNIDROIT Principles for International Commercial Contracts 2016. Any disputes arising out of or in connection with this Agreement shall be finally settled by arbitration under the UNCITRAL Arbitration Rules. The seat of arbitration shall be Japan. The arbitral tribunal may seek expert opinions on purely technical matters.</p>
+                <hr>
+                <p>IN WITNESS WHEREOF, the Parties have caused this Addendum to be executed by their duly authorized representatives.</p>
+                <p><strong>February 1, 2025</strong></p>
+                <p><strong>Red Corporation (Provider)</strong><br>By: <em>(Signature)</em><br>Title: Chief Technology Officer</p>
+                <p><strong>Blue University (Licensee)</strong><br>By: <em>(Signature)</em><br>Title: Chancellor</p>
+            </article>
+        </section>
+<section id="exhibit21" class="content-section">
+            <h2>別添21 メールでのやり取り</h2>
+            <div class="related-pages">関連ページ: <a href="#p-18">本文¶18</a></div>
+            <article class="document">
+                <p><strong>日付:</strong> 2025年3月8日</p>
+                <p><strong>件名:</strong> RedAid性能要件と国外クラウド利用について</p>
+                <p><strong>発信者:</strong> レッド社 CTO</p>
+                <p><strong>宛先:</strong> ブルー大学IT部門長</p>
+                <hr>
+                <p>本日は、RedAidの医療ツーリズム用拡張に関する性能要件について、重要なご確認をお願いしたくご連絡いたしました。</p>
+                <p>先日の技術打合せでも触れましたが、貴大学が求められる水準、すなわち:</p>
+                <ul>
+                    <li>10言語以上の多言語インターフェイス</li>
+                    <li>CT・MRI等の高精細画像のリアルタイム処理</li>
+                    <li>同時500人規模のアクセスにも遅延が発生しない処理能力</li>
+                </ul>
+                <p>を全て満たすには、アービトリア国内の既存オンプレミス設備や国内クラウドのみでは、処理能力が限界に達する可能性が高いと考えております。特に、高精細画像のリアルタイム処理、国際患者による母国語問診テキストの解析、同時接続に必要なセッション管理データ処理については、ネゴランド国内の高性能クラウドを部分的に利用しなければ、臨床現場が要求する水準を保証できない恐れがあります。</p>
+                <p>もちろん、患者の診療録本体や氏名・住所等の識別情報、遺伝情報などは国外移転の対象外であり、これらは全てアービトリア国内で保持されます。国外クラウドに移転されるのは処理性能確保のために限定的に必要なデータに限られます。</p>
+                <p>つきましては、以下についてご見解を伺いたく存じます。</p>
+                <ul>
+                    <li>キャンペーンの成功に向け、性能要件を最優先にすべきか、それとも契約文言を厳格に解釈すべきか。</li>
+                    <li>当大学として、監督当局との調整を視野に入れた「例外的運用」の可能性を容認されるのか。</li>
+                </ul>
+                <p>当社としては、契約を遵守しつつも、大学側のご要望に沿って安定的なサービスを提供するために、大学の公式なご意向を確認したいと考えております。</p>
+                <p>お手数をおかけしますが、至急ご回答いただければ幸いです。</p>
+            </article>
+
+            <article class="document">
+                <p><strong>日付:</strong> 2025年3月10日</p>
+                <p><strong>件名:</strong> Re: RedAid 運用に関するご確認(国外移転禁止条項と性能要件の両立について)</p>
+                <p><strong>発信者:</strong> ブルー大学 IT部門長</p>
+                <p><strong>宛先:</strong> レッド社 CTO</p>
+                <hr>
+                <p>メール有難うございました。</p>
+                <p>当大学としても、2025年7月開始予定の国際医療ツーリズム・キャンペーンにおいて、RedAid が要求される性能要件—————多言語対応、高精細画像のリアルタイム処理、500件以上の同時接続――を実現することは、極めて重要であると考えています。性能が不足すれば、キャンペーンの円滑な実施に深刻な影響が出るのは確かです。</p>
+                <p>国外移転禁止の条項については、法的リスクを十分認識しています。そのため、先日、当局の担当部署に非公式にサウンディングを行いました。その結果、『国際共同研究を目的とするのであれば例外規定にあたる可能性は高い。ただし、正式な判断を得るには書面での照会が必要」との回答を得ました。</p>
+                <p>このため、直ちに全面的に国外クラウドを利用してよいとまでは断言できませんが、例外適用の余地はあると見込まれます。当大学としても、正式な照会手続きを進める方向で検討を開始しています。</p>
+                <p>併せて、貴社においても技術的・法的な側面から追加的に確認を行っていただき、双方で情報を共有しつつ最適な対応を模索することが望ましいと考えます。まずは並行して準備を進め、キャンペーンのタイミングに間に合うよう調整していきたいと思います。</p>
+            </article>
+
+            <article class="document">
+                <p><strong>日付:</strong> 2025年3月11日</p>
+                <p><strong>件名:</strong> Re: RedAid 運用に関するご確認 (国外移転禁止条項と性能要件の両立について)</p>
+                <p><strong>発信者:</strong> レッド社 CTO</p>
+                <p><strong>宛先:</strong> ブルー大学IT部門長</p>
+                <hr>
+                <p>ご回答いただき、ありがとうございました。</p>
+                <p>国外移転禁止条項と性能要件の両立について、貴大学が当局にサウンディングを行い、『例外に該当する可能性が高い』との回答を得られたとのこと、理解いたしました。</p>
+                <p>当社においても、社内のAIリーガルアシスタントを用いて確認を行いましたが、『国際共同研究を目的とする国外クラウド利用は、少なくともネゴランド国法上は全く問題なく、アービトリア法上も例外として解釈され得る』との見解が得られています。</p>
+                <p>時間的制約も大きいため、当社としては今回のキャンペーンに限り、例外的に国外移転が認められるという理解で準備を進める方針です。もっとも、法的リスクを完全に排除できないことは承知していますので、もし監督当局とのやり取りの中で『この運用は認められない』という判断が下される可能性があると判明した場合には、速やかにご連絡いただきたく存じます。</p>
+                <p>この点については、今後も両者で緊密に情報を共有しながら調整を進める所存です。</p>
+                <p>よろしくお願いいたします。</p>
+            </article>
+            <article class="document">
+                <p><strong>日付:</strong> 2025年3月20日</p>
+                <p><strong>件名</strong> Re: RedAid 運用に関するご確認 (国外移転禁止条項と性能要件の両立について)</p>
+                <p><strong>発信者:</strong> ブルー大学IT部門長</p>
+                <p><strong>宛先:</strong> レッド社 CTO</p>
+                <hr>
+                <p>その後、私から当局の担当者に書⾯で照会をしたところ、以下のような回答でした。</p>
+                <hr>
+                <blockquote>ブルー⼤学IT部⾨⻑様 <br>
+                    RedAidの改良のための国際共同研究であれば個⼈情報保護法の例外規定に該当すると考えられます。なお、アービトリア国法上、この事前相談は法的拘束⼒を持つものではありません。</blockquote>
+            </article>
+            <article class="document">
+                <p><strong>日付:</strong> 2025年3月21日</p>
+                <p><strong>件名:</strong> Re: RedAid 運用に関するご確認 (国外移転禁止条項と性能要件の両立について)</p>
+                <p><strong>発信者:</strong> レッド社 CTO</p>
+                <p><strong>宛先:</strong> ブルー大学IT部門長</p>
+                <hr>
+                <p>それは良かったです。有難うございました。</p>
+            </article>
+        </section>
+
+        <section id="exhibit22" class="content-section">
+            <h2>別添22 ブルー大学監査部 内部監査報告書(抜粋)</h2>
+            <div class="related-pages">関連ページ: <a href="#p-19">本文¶19</a></div>
+            <p><strong>日付:</strong> 2025年8月15日</p>
+            <p><strong>作成者:</strong> ブルー大学監査部</p>
+            <p><strong>対象:</strong> 医療ツーリズム用 RedAid システム運用状況</p>
+            <article>
+                <h3>監査の目的</h3>
+                <p>RedAidシステムにおける患者データ処理の状況を確認し、契約およびアービトリア国の個人情報保護法に適合しているかを検証する。</p>
+                <h3>監査結果(主要所見)</h3>
+                <h4>1. 国外クラウド利用の確認</h4>
+                <p>RedAidの運用において、一部のデータがネゴランド国内のクラウドサーバーに保存・処理されていたことを確認した。</p>
+                <h4>2. 国外移転されていたデータの種類</h4>
+                <p>国外クラウドに移転されていたのは以下の情報である:</p>
+                <ul>
+                    <li>CT・MRI等の高精細画像データ (リアルタイム解析用)</li>
+                    <li>国際患者が母国語で入力した問診テキスト(多言語翻訳・解析用)</li>
+                    <li>同時接続時に必要なセッション管理情報 (500名規模アクセス負荷対応用)</li>
+                </ul>
+                <p>これらは処理性能確保のために限定的に利用されていたが、契約上は「国外移転禁止」と明記されており、適合性に重大な疑義が生じる。</p>
+                <h4>3. 国外移転されていなかった情報</h4>
+                <p>一方で、以下の情報は国外移転されていないことを確認した:</p>
+                <ul>
+                    <li>患者の診療録本体(電子カルテ記録)</li>
+                    <li>氏名・住所等の直接識別情報</li>
+                    <li>遺伝情報</li>
+                </ul>
+                <h4>4. 契約・法令遵守に関する評価</h4>
+                <p>国外クラウド利用は、契約条項 (国外移転禁止)との整合性を欠く可能性が高く、アービトリア国の個人情報保護法にも抵触するリスクがある。当局による制裁・罰金の可能性は否定できない。</p>
+                <h3>結論</h3>
+                <p>RedAidシステムは、性能要件を満たすために国外クラウドを利用していたが、その結果として一部のデータが国外移転されていた。契約上の禁止規定および国内法令との整合性に関し、重大なリスクが存在する。本件については至急是正措置を講じるとともに、必要に応じて監督当局への自己申告を検討すべきである。</p>
+            </article>
+        </section>
+
+        <section id="exhibit23" class="content-section">
+            <h2>別添23</h2>
+            <div class="related-pages">関連ページ: <a href="#p-19">本文¶19</a></div>
+            <article class="document">
+                <p><strong>日付:</strong> 2025年8月20日</p>
+                <p><strong>発信者:</strong> ブルー大学法務部長</p>
+                <p><strong>宛先:</strong> レッド社 CTO</p>
+                <h3>件名: 国外移転禁止条項違反に関する是正要求</h3>
+                <hr>
+                <p>当大学の監査部が実施した内部監査の結果、RedAidシステムにおいて一部患者データが国外(ネゴランド国内クラウド)に保存されている事実が判明しました。これは契約第5条に明記された国外移転禁止義務に違反するものです。</p>
+                <p>つきましては、貴社に対し以下を求めます。</p>
+                <ul>
+                    <li>即時に国外クラウドの利用を停止すること。</li>
+                    <li>すべての患者データをアービトリア国内に移転・保管すること。</li>
+                    <li>是正措置を講じた証拠を30日以内に提示すること。</li>
+                </ul>
+            </article>
+        </section>
+
+        <section id="exhibit24" class="content-section">
+            <h2>別添24</h2>
+            <div class="related-pages">関連ページ: <a href="#p-19">本文¶19</a></div>
+            <article class="document">
+                <p><strong>日付:</strong> 2025年8月22日</p>
+                <p><strong>発信者:</strong> レッド社 CTO</p>
+                <p><strong>宛先:</strong> ブルー大学法務部長</p>
+                <h3>件名: 是正要求に関する回答</h3>
+                <hr>
+                <p>当社は、契約交渉時に貴学IT部門長より『国外移転は例外的に許容され得る』との説明を受け、その理解に基づき運用を行ってまいりました。</p>
+                <p>もし国外移転を直ちに停止するのであれば、当初合意した性能要件(多言語対応、高精細画像リアルタイム処理、同時接続500件以上)を満たすことは不可能となり、システムの安定稼働を保証できません。その場合、サービス提供を継続すること自体が困難となる可能性があります。</p>
+            </article>
+        </section>
+
+        <section id="exhibit25" class="content-section">
+            <h2>別添25</h2>
+            <div class="related-pages">関連ページ: <a href="#p-19">本文¶19</a></div>
+            <article class="document">
+                <p><strong>日付:</strong> 2025年8月25日</p>
+                <p><strong>発信者:</strong> レッド社 CTO</p>
+                <p><strong>宛先:</strong> ブルー大学法務部長</p>
+                <h3>件名: 代替策に関する追加説明</h3>
+                <hr>
+                <p>社内で再度検討したところ、国外移転を伴わない代替策は存在します。しかしそれには以下の緊急的措置が必要です:</p>
+                <ul>
+                    <li>専用 GPU サーバーの調達</li>
+                    <li>国際専用回線の確保</li>
+                    <li>アルゴリズム最適化</li>
+                </ul>
+                <p>これらの措置には少なくとも350万米ドルの追加費用が発生します。詳しくは、添付資料の見積書をご覧ください。イエロー社は独立した信頼できる企業であり、どれくらいの費用がかかるかを客観的に試算してくれました。例えば、1か月以内などの緊急の対応の場合ですと、500万米ドルの追加費用が発生します。当社がこのような額を負担することは不可能であり、貴学が費用を負担されない限り、現行サービスの提供を継続することは困難です。</p>
+                
+                <div class="document">
+                    <h4>&lt;添付資料&gt;</h4>
+                    <p><strong>発行日:</strong> 2025年8月25日</p>
+                    <p><strong>発行者:</strong> イエロー社 (独立ITインフラ事業者)</p>
+                    <p><strong>宛先:</strong> レッド社 御中</p>
+                    <h3>件名: RedAidシステムにおける国外移転禁止対応に伴う追加費用見積書</h3>
+                    <h4>見積り範囲</h4>
+                    <p>本見積りは、患者データの国外移転を一切伴わずに、レッド社が RedAid 医療ツーリズム用システムを運用するために必要となる追加措置の費用を算定したものです。ブルー大学より提示された性能要件 (①10言語以上の多言語対応、②CT・MRI等の高精細画像のリアルタイム処理、③500名以上の同時接続時に遅延が発生しない処理能力)を満たすことを前提としています。</p>
+                    <h4>費用内訳</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>項目</th>
+                                <th>内容</th>
+                                <th>費用 (USD)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1. 専用 GPU サーバー調達</td>
+                                <td>高精細画像解析に対応するGPUクラスター (10ラック冗長構成)<br>調達・設置・初年度保守を含む</td>
+                                <td style="text-align: right;">1,200,000</td>
+                            </tr>
+                            <tr>
+                                <td>2. 国際専用回線の確保(国内終端)</td>
+                                <td>同時500名規模の接続に耐える帯域確保 (冗長回線含む)<br>敷設・初期契約費用</td>
+                                <td style="text-align: right;">800,000</td>
+                            </tr>
+                            <tr>
+                                <td>3. アルゴリズム最適化・ソフトウェア改修</td>
+                                <td>クラウド依存部分の国内環境対応化<br>並列処理・キャッシュ最適化・言語処理モジュール改修</td>
+                                <td style="text-align: right;">500,000</td>
+                            </tr>
+                            <tr>
+                                <td>4. セキュリティ・監査体制強化</td>
+                                <td>暗号化装置、アクセス制御、監査ログ、通知システム導入<br>外部コンプライアンス監査を含む</td>
+                                <td style="text-align: right;">400,000</td>
+                            </tr>
+                            <tr>
+                                <td>5. 人件費・緊急対応コスト</td>
+                                <td>追加エンジニア20名による24時間体制構築<br>緊急納品によるプレミアム価格</td>
+                                <td style="text-align: right;">600,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4>合計見積額</h4>
+                    <ul>
+                        <li>通常対応(3~4か月): 3,500,000 USD</li>
+                        <li>緊急対応(3週間以内): 5,000,000 USD</li>
+                    </ul>
+                    <h4>備考</h4>
+                    <ul>
+                        <li>本見積りは、イエロー社の独立した技術的評価に基づき算定したものです。</li>
+                        <li>緊急対応の場合、調達・敷設・人員確保に大幅な追加費用が発生するため、通常対応より高額になります。</li>
+                        <li>上記金額には、税金、2年目以降の保守費用、将来の規制変更に伴う改修費用は含まれておりません。</li>
+                    </ul>
+                </div>
+            </article>
+        </section>
+<section id="exhibit26" class="content-section">
+            <h2>別添26</h2>
+            <div class="related-pages">関連ページ: <a href="#p-19">本文¶19</a></div>
+            <article class="document">
+                <p><strong>日付:</strong> 2025年9月5日</p>
+                <p><strong>発信者:</strong> ブルー大学法務部長</p>
+                <p><strong>宛先:</strong> レッド社 CTO</p>
+                <h3>件名: 追加費用負担および国外移転に関する再反論</h3>
+                <hr>
+                <h4>追加費用について</h4>
+                <p>貴社が提示した350万米ドルから500万米ドルの追加費用について、当大学としてはこれを負担する義務は一切存在しません。契約上、RedAidの提供は貴社の義務であり、国外移転を伴わずにサービスを継続することは当然の前提です。従って、当大学が追加費用を負担することはできません。</p>
+                <h4>法律事務所の意見について</h4>
+                <p>当大学は、アービトリア国で最も定評ある法律事務所に本件を相談しました。その結果、国外移転は同国の個人情報保護法において重大な違反に該当し得るものであり、監督当局による行政処分や巨額の罰金の対象となり得るとの意見を得ています。また、自主的に国外利用を停止し、速やかに是正措置を講じれば、リスクは大幅に軽減できるとの助言も受けています。法律事務所の意見は添付しました。</p>
+                <p>法律事務所の意見に従い、当大学は、9月7日付で個人情報保護委員会に今回の事態を自主申告する予定です。</p>
+                <h4>当大学の要求</h4>
+                <p>従って、当大学は貴社に対し、国外クラウドの利用を直ちに停止し、すべての患者データをアービトリア国内に移転・保管することを強く要求します。</p>
+                <h4>損害賠償の予告</h4>
+                <p>もし貴社が国外利用を停止せず、これにより当大学が行政処分や患者対応に伴う損害を被った場合、当大学は契約および適用法令に基づき、貴社に対しその損害の賠償を請求する所存です。</p>
+                <div class="document">
+                    <h4>(添付文書) 法律意見書</h4>
+                    <p><strong>依頼者:</strong> ブルー大学</p>
+                    <p><strong>依頼内容:</strong> 国外移転禁止条項違反の疑いに関するリスク評価</p>
+                    <p><strong>作成者:</strong> Lex & Partners 法律事務所 (アービトリア国)</p>
+                    <p><strong>日付:</strong> 2025年9月4日</p>
+                    <hr>
+                    <h5>1. 事実認識</h5>
+                    <ol>
+                        <li>(1) ブルー大学は、ネゴランド国 Red Inc.のAI医療支援システム「RedAid」を導入し、医療ツーリズムを含む国際的患者対応に活用している。</li>
+                        <li>(2) 契約上、「患者データの国外移転は禁止される」と明記されているが、性能要件(多言語対応、高精細画像のリアルタイム処理、同時接続500件以上)を満たすため、レッド社がネゴランド国内クラウドを部分的に利用していたことが判明した。</li>
+                        <li>(3) 当該国外移転は2025年8月15日の大学監査部による内部監査で確認され、ブルー大学上層部に報告された。</li>
+                        <li>(4) 現在、国外移転が監督当局に正式に報告されるか否かが重大な判断事項となっている。</li>
+                    </ol>
+                    <h5>2. 法的評価</h5>
+                    <ol>
+                        <li>(1) アービトリア個人情報保護法制
+                            <p>アービトリア国法は医療情報の国外移転を原則禁止し、違反した場合には「総収入の最大4%」の制裁金を科すことができると規定する(同法第45条)。過去の事例では、大手病院が国外クラウドを利用した結果、売上高の約3%に相当する制裁金とデータ移転停止命令を受けている。</p>
+                        </li>
+                        <li>(2) 自主申告の効果
+                            <p>当局の指針(2023年「データ保護執行に関するガイドライン」)によれば、事業者が違反を自己申告し、速やかに是正措置を講じた場合には、制裁を軽減する考慮要素とされる。</p>
+                            <ul>
+                                <li>隠ぺい → 最大制裁の適用可能性</li>
+                                <li>自主申告→ 厳重注意や制裁金の大幅減額の可能性</li>
+                            </ul>
+                        </li>
+                        <li>(3) 契約上の評価
+                            <p>国外移転は契約上も「禁止」されているため、違反事実が認定されればレッド社の契約違反を追及可能。ただし、大学が例外適用の可能性を示唆した経緯があるため、相手方は「合理的期待に基づく運用であった」と抗弁する可能性が高い。</p>
+                        </li>
+                    </ol>
+                    <h5>3. リスク試算</h5>
+                    <p>当事務所の試算によれば、以下のとおりである。</p>
+                    <ol>
+                        <li>(1) 制裁金
+                            <ul>
+                                <li>隠して発覚した場合: 年間収入6億米ドルの2~4%→1,200万~2,400万米ドル</li>
+                                <li>自主申告+是正した場合: 0.5~1%→300万~600万米ドル</li>
+                            </ul>
+                        </li>
+                        <li>(2) 民事訴訟(患者)
+                            <ul>
+                                <li>隠して発覚: 集団訴訟リスク→約1,000万米ドル</li>
+                                <li>自主申告: 慰謝料水準低下→約200万米ドル</li>
+                            </ul>
+                        </li>
+                        <li>(3) 総合比較
+                            <table>
+                                <thead>
+                                    <tr><th>シナリオ</th><th>制裁金</th><th>民事訴訟</th><th>合計リスク額</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>隠して発覚</td><td>1,200万~2,400万</td><td>約1,000万</td><td>2,200万~3,400万米ドル</td></tr>
+                                    <tr><td>自主申告</td><td>300万~600万</td><td>約200万</td><td>500万~800万米ドル</td></tr>
+                                </tbody>
+                            </table>
+                        </li>
+                        <li>
+                        </li>
+                    </ol>
+                    <h5>4. 結論</h5>
+                    <ol>
+                        <li>1. 国外移転を直ちに停止し、速やかに当局へ自己申告を行うことが、最もリスクを低減する措置である。</li>
+                        <li>2. 自主申告を行えば、制裁金は最大で75%以上軽減される可能性があり、民事訴訟においても「誠実対応」として評価され、賠償額が大幅に縮小する。</li>
+                        <li>3. 一方、隠して発覚した場合、最大で4,000万米ドル規模の制裁・損害を負うリスクがある。</li>
+                        <li>4. よって、ブルー大学は直ちに国外移転を停止し、個人情報保護委員会へ自主的に報告することを強く推奨する。</li>
+                    </ol>
+                </div>
+            </article>
+        </section>
+
+        <section id="exhibit27" class="content-section">
+            <h2>別添27</h2>
+            <div class="related-pages">関連ページ: <a href="#p-20">本文¶20</a></div>
+            <article class="document">
+                <p><strong>日付:</strong> 2025年9月12日</p>
+                <p><strong>宛先:</strong> レッド社代表取締役社長殿</p>
+                <p><strong>発信者:</strong> ブルー大学学長</p>
+                <hr>
+                <p>拝啓</p>
+                <p>当大学は、2025年9月7日付でアービトリア国個人情報保護委員会に本件国外移転について自主申告を行い、2025年9月10日付の回答文書(添付)を受領いたしました。</p>
+                <p>当該回答により、本件国外移転は個人情報保護法違反と認定され、12月15日までに国外移転を停止するよう命じられております。</p>
+                <p>つきましては、御社に対し、以下のとおり通知いたします。</p>
+                <ol>
+                    <li><strong>1. 国外移転の即時停止</strong>
+                        <p>直ちにRedAidの利用に伴う患者に関するデータの国外移転を停止し、国内で処理・保管すること。</p>
+                    </li>
+                    <li><strong>2. サービス提供の継続</strong>
+                        <p>契約上、御社はRedAidの提供を3年間継続する義務を負っており、国外移転停止を理由にサービス提供を中断することは認められません。</p>
+                    </li>
+                    <li><strong>3. 制裁金の賠償</strong>
+                        <p>本件により科される制裁金(100万米ドル、または条件不履行の場合は600万米ドル+日額1万米ドル)は、国外移転を実施した御社の責に帰すものであり、御社において全額賠償いただきます。</p>
+                    </li>
+                </ol>
+                <p>速やかな履行を求めます。</p>
+                <div class="document">
+                    <h4>&lt;添付文書&gt;</h4>
+                    <p><strong>日付:</strong> 2025年9月10日</p>
+                    <p><strong>宛先:</strong> ブルー大学 学長殿</p>
+                    <p><strong>発信者:</strong> アービトリア国 個人情報保護委員会(APDPC)</p>
+                    <hr>
+                    <p>拝啓</p>
+                    <p>2025年9月7日付で貴学より提出された自主申告について、当委員会は精査を行いました。その結果、以下のとおり判断いたします。</p>
+                    <h5>1. 法令違反の認定</h5>
+                    <p>本件は、アービトリア国個人情報保護法に基づく「個人データの国外移転禁止規定」に違反するものと認定されます。</p>
+                    <h5>2. 是正措置命令</h5>
+                    <p>2025年12月15日までに国外移転を完全に停止し、データをすべてアービトリア国内に保管するよう命じます。</p>
+                    <h5>3. 患者権利保護措置</h5>
+                    <p>当該移転により患者の権利侵害が生じないよう万全の措置を講じること。万一権利侵害が認められた場合には、適切かつ迅速に補償を行うこと。</p>
+                    <h5>4. 制裁金の額</h5>
+                    <ul>
+                        <li>上記の是正措置を遵守する場合、制裁金は100万米ドルとする。</li>
+                        <li>2025年12月15日までに国外移転を停止しない場合、制裁金は600万米ドルとし、さらに国外移転が継続している間、1日あたり1万米ドルの追加制裁金を科す。</li>
+                    </ul>
+                    <p>以上、貴学の迅速な対応を求めます。</p>
+                </div>
+            </article>
+        </section>
+
+        <section id="exhibit28" class="content-section">
+            <h2>別添28</h2>
+            <div class="related-pages">関連ページ: <a href="#p-20">本文¶20</a></div>
+            <article class="document">
+                <p><strong>日付:</strong> 2025年9月13日</p>
+                <p><strong>宛先:</strong> ブルー大学学長殿</p>
+                <p><strong>発信者:</strong> レッド社代表取締役社長</p>
+                <hr>
+                <p>2025年9月12日付貴学通知を受領いたしました。以下のとおり当社の立場を申し述べます。</p>
+                <h4>国外移転停止について</h4>
+                <p>当社は、アービトリア国当局の指示に従い、国外移転を停止する準備を進めております。もっとも、国外移転を停止する場合には、既にご説明しているとおり、代替措置(専用GPUサーバーの調達、専用回線の敷設等)により350万から500万米ドル規模の追加費用が発生いたします。この費用を当社が負担する合理的理由はなく、貴学が負担されるべきものと考えます。</p>
+                <h4>制裁金について</h4>
+                <p>本件国外移転は、契約交渉過程において貴学IT部門長をはじめとする関係者から「例外的に認められる可能性がある」との説明を受け、貴学の了解の下で実施したものです。従って、科される制裁金は当社が負担すべきものではなく、当社が貴学に賠償する理由は存在しません。</p>
+                <h4>サービス継続について</h4>
+                <p>契約上の義務を尊重し、RedAidの提供は継続いたします。ただし、貴大学が追加費用負担を負担することについて合意がなされない限り、現在提供されている仕様・機能での提供は困難となることをご理解ください。</p>
+                <div class="callout note">
+                    <p><strong>注：</strong>国外移転を⾏わず、また、代替措置を⾏わない場合には、①患者の⺟国語による多⾔語インターフェイスの提供、②CT・MRIなど⾼解像度画像を⽤いたリアルタイム処理、③⼀度に数百⼈単位でアクセスが集中しても遅延が発⽣しない同時接続処理能⼒のいずれも提供できなくなり、①英語対応のみ、②画像改正は数分遅延し、③同時アクセスは数⼗名が限界となることが証明されている。また、イエロー社以外に代替措置を提供可能な事業者は⾒つかっていない。</p>
+                </div>
+            </article>
+        </section>
+
+        <section id="exhibit29" class="content-section">
+            <h2>別添29 争点</h2>
+            <div class="related-pages">関連ページ: <a href="#p-22">本文¶22</a></div>
+            <article>
+                <h3>RedAid事件</h3>
+                <h4>1. レッド社の求める仲裁判断</h4>
+                <p>ブルー大学はレッド社に対して260万米ドルを支払え。</p>
+                <h4>2. ブルー大学の求める仲裁判断</h4>
+                <ol>
+                    <li>(1) レッド社の請求を棄却する。</li>
+                    <li>(2) レッド社はブルー大学に対して225万米ドルを支払え。</li>
+                </ol>
+                <h4>3. 争点</h4>
+                <ol>
+                    <li>(1) ブルー大学の内部調査報告書が流出したことにより、ブルー大学はレッド社に対して債務不履行責任を負うか。仮に債務不履行責任を負う場合、賠償額は幾らか。</li>
+                    <li>(2) レッド社はブルー大学が遺族に支払った200万米ドルをブルー⼤学に対して⽀払う義務を負うか。</li>
+                    <li>(3) レッド社はブルー大学がRedAidの利用を停止した期間に相当する利用料である25万米ドルをブルー大学に支払う義務を負うか。</li>
+                </ol>
+            </article>
+            <article>
+                <h3>ツーリズム事件</h3>
+                <h4>1. ブルー大学の求める仲裁判断</h4>
+                <ol>
+                    <li>レッド社はRedAidの医療ツーリズム用サービスの利用に伴う患者に関するデータをアービトリア国外に移転してはならない。</li>
+                    <li>レッド社は、ライセンス契約の期間中、ブルー大学に対して現在提供されているのと同じ仕様と機能でRedAidの医療ツーリズム用サービスを提供せよ。</li>
+                    <li>レッド社はブルー大学がアービトリア国個人情報保護法により科される制裁金(100万米ドル、または600万米ドル+日額1万米ドル)を賠償せよ。</li>
+                </ol>
+                <h4>暫定的措置の申立て</h4>
+                <ol>
+                    <li>レッド社は遅くとも2025年12月15日までに、RedAidの利用に伴う患者データのアービトリア国外への移転を停止せよ。</li>
+                    <li>レッド社は仲裁判断が出るまでの間、ブルー大学に対してRedAidのサービスを現在提供されている仕様と機能で継続して提供せよ。</li>
+                </ol>
+                <h4>2. レッド社の求める仲裁判断</h4>
+                <ol>
+                    <li>ブルー大学の請求を棄却する。</li>
+                    <li>仮に、レッド社が患者データの国外移転を停止したうえでRedAidの医療ツーリズム用サービスのブルー大学への提供を継続する義務を負う場合には、ブルー大学はレッド社に対して国外移転を停止したうえでサービスを継続することに伴う費用(300万米ドルから500万米ドルを見込む)を支払え。</li>
+                </ol>
+                <h4>3. 争点</h4>
+                <ol>
+                    <li>レッド社は、RedAidの医療ツーリズム用サービスの提供に当たり、患者データの国外移転を停止しし、国外移転されたデータをアービトリア国内に移転するとともに、現在提供されている仕様・機能でサービスの提供を継続する義務を負うか。仮に、サービスを提供する義務を負う場合、ブルー大学はレッド社に対して国外移転を行わずにサービスを継続することに伴う追加費用を支払う義務を負うか。</li>
+                    <li>ブルー大学が求める暫定的処分は認められるべきか。</li>
+                    <li>レッド社はブルー⼤学がアービトリア国個⼈情報保護法により科される制裁⾦をブルー⼤学に対して⽀払う義務を負うか。</li>
+                </ol>
+            </article>
+        </section>
+
+        <section id="exhibit30" class="content-section">
+            <h2>別添30 第1回事前協議 議事録</h2>
+            <div class="related-pages">関連ページ: <a href="#p-26">本文¶26</a></div>
+            <ul>
+                <li><strong>日時:</strong> 2025年10月18日(金) 15:00-17:00(日本時間)</li>
+                <li><strong>場所:</strong> オンライン会議 (Zoom)</li>
+                <li><strong>出席者:</strong>
+                    <ul>
+                        <li><strong>レッド社:</strong> 事業開発マネージャー、RedAid/RedLink プロダクトリード、法務カウンセル、データプライバシー担当</li>
+                        <li><strong>ブルー大学:</strong> 国際戦略室マネージャー、医療情報部門責任者、法務室担当、臨床代表(内科教授)</li>
+                    </ul>
+                </li>
+                <li><strong>記録:</strong> 双方同意のうえ、要点を抄録</li>
+            </ul>
+            <article>
+                <h3>議題1: 医療やAIに関する認識</h3>
+                <p>レッド社とブルー大学は、以下のような共通の認識を抱いていることを確認した。</p>
+                <p>AIの医療分野への活用が注目を集めている。診断支援や画像解析、トリアージなどにおいてAIが果たす役割は急速に拡大しており、各国の規制当局もその導入を後押しする姿勢を見せている。他方で、説明可能性の欠如やバイアスの存在、予期せぬアウトカムのリスクといった問題は依然として大きく、社会的議論や規制整備は過渡期にある。</p>
+                <p>ネゴランド国とアービトリア国の法制度や文化には違いがある。ネゴランド国は、サンドボックス制度によって革新的技術を限定的に市場導入し、実証を重ねて段階的に普及させる仕組みを整えている。匿名化データであれば国外移転も比較的容易であり、AIの国際共同研究に有利な環境が整っている。一方、アービトリア国は承認審査に時間をかけ、国外移転はアービトリア国と同様の個人情報保護がなされていると認定された国に限定するなど、厳格な規制を敷いている。AIは臨床判断の補助にとどめられ、単独での診断や治療決定は原則として認められない。両国とも患者の安全と権利を最優先とする点では一致しているが、許容されるリスクの範囲や導入のスピード感には大きな隔たりがある。</p>
+                <p>いずれの国においても倫理的・社会的観点も重要である。AIを利用する際には、患者に対して補助的役割であることを明示し、インフォームド・コンセントを適切に取得する必要がある。差別や偏りを助長しないよう監視体制を敷くこと、異常や不具合が発生した場合には即時に停止して人手で対応できる仕組みを設けることも社会的に強く求められている。また、データセキュリティについては、暗号化やアクセス制御、監査ログ、侵害発生時の通知義務といった最低限の技術的・組織的対策が必須である。</p>
+                <p>AI導入は医師の負荷軽減につながる可能性がある一方、操作が煩雑であれば逆に負担を増大させるため、ユーザー・インターフェイス（UI）やユーザー・エクスペリエンス（UX）の質が極めて重要である。また、導入後も継続的なモニタリングを行い、性能劣化やデータ分布の変化を検知し、必要に応じて再学習を行う体制が不可欠であることも共通認識となっている。さらに、成功事例を積み上げることが信頼構築に不可欠であり、逆に重大な失敗があれば社会的信用が失墜するリスクがある。</p>
+            </article>
+            <article>
+                <h3>議題2: 共同研究契約 (RedAidの高度化)</h3>
+                <h4>レッド社の主張</h4>
+                <p>レッド社は、希少疾患や高齢者、複数の合併症を抱える症例に対応できるAI医療支援ツールを実現するためには、ブルー大学が保有する高品質な臨床データが不可欠であると強調した。その上で、データ活用の方法としては連合学習を基本とし、学内で生成される合成データの利用や、製品改善に資する範囲での集計メタデータの活用を契約上認めてほしいと要望した。また、循環器、呼吸器、救急、ツーリズム以外の部⾨における利⽤も実績を積み重ねたいと要望した。成果の公表については、知的財産の出願と権利化を終えたうえで、双方による事前審査を行い、患者のデータを匿名化した形で発表する運用なら積極的に支援する意向を示した。知財の帰属については、汎用的な機能はレッド社に、ブルー大学特有の運用ノウハウや派生機能は大学に帰属させる案を提示した。契約期間はまず1年間のPoCを行い、その成果を評価したうえで延長や本格契約に進みたいと説明した。</p>
+                <h4>ブルー大学の主張</h4>
+                <p>ブルー大学は、国際共同研究の意義を認めつつも、患者の安全と大学ブランドを守ることを最優先に据えていることを明確にした。データについては、国内リージョンでの保存と大学による暗号鍵の単独管理を原則とし、国外への越境や外部での個票分析は禁止すべきであるとした。合成データの活用については、学内で生成・利用されるものに限れば容認する余地があると述べた。成果の公表については、出願後に共同審査を行い匿名化するというレッド社の提案に前向きな反応を示した。知財に関しては、汎用的な機能はレッド社に帰属することを容認する一方、大学特有の知見や派生機能は大学帰属とし、他者への再利用を行う場合には事前通知と守秘義務を課すべきだと主張した。契約期間は短期PoCから始め、成果を見ながら1年ごとに延長を検討したいという姿勢を取った。</p>
+            </article>
+            <article>
+                <h3>議題3: 遠隔医療プラットフォーム「RedLink」導入</h3>
+                <h4>レッド社の主張</h4>
+                <p>レッド社は、RedLinkを外来フォロー、術前・術後の相談、国際患者の事前トリアージ、セカンドオピニオンなど幅広く活用したいと説明した。他方で、プロダクト改善のために集計メタデータや学内のサーバー環境のもとでの連合学習・合成データの活用権を契約上確保する必要があると強調した。契約期間については本来は3年の中期契約を希望するが、大学の事情に配慮して1年契約から始めて成果を評価し、その後延長する方式にも応じられると述べた。料金は定額制を基本とし、追加モジュールに従量課金を設定することを希望。成果連動についても小幅に導入したいと主張した。</p>
+                <h4>ブルー大学の主張</h4>
+                <p>ブルー大学は、遠隔医療が地域医療連携や国際展開に資する点を評価しながらも、規制とリスク管理の重要性を改めて強調した。患者データは国内リージョンに保存し、暗号鍵は大学が単独で管理することを絶対条件とし、国外越境は一切認めないと明言した。メタデータの利用については、利用目的を特定し事前承認を経る範囲であれば限定的に容認できると述べた。契約はまず1年のPoC契約から開始し、成果に応じて更新を判断したいとの意向を示した。便宜解約については6か月前通知を必須とし、データ返却・削除・監査証跡の提出を出口条件として明記することを求めた。責任分担については、臨床判断は大学が負う一方、プラットフォームの欠陥や知財侵害はレッド社が補償すべきとした。責任上限については、年間契約額の1~3倍程度を基準とし、追加で保険加入を求める可能性があると述べた。</p>
+            </article>
+            <article>
+                <h3>クロージング</h3>
+                <ul>
+                    <li>双方は、いずれのテーマについても、「段階的導入」「成果評価を経た更新」という方向性で一致を見た。</li>
+                    <li>一方で、データ利用範囲、成果公表のタイミング、料金体系、責任上限、独占の可否といった主要論点は今後の詳細協議に委ねられた。</li>
+                    <li>双方とも「大学ブランド保護」「製品改善・実績確保」を臨界点と認識しており、次回までに具体的な条項案を提示することで合意した。</li>
+                </ul>
+            </article>
+            <article>
+                <h3>次回会合</h3>
+                <ul>
+                    <li><strong>日時:</strong> 2025年11月16日(日) 12:00-14:00(日本時間)</li>
+                    <li><strong>場所:</strong> ブルー大学 (対面を予定)</li>
+                    <li><strong>議題:</strong>
+                        <ol>
+                            <li>1. RedAidの共同研究契約の主要な内容の確定</li>
+                            <li>2. RedLink契約条件の主要な内容の確定</li>
+                            <li>3. その他</li>
+                        </ol>
+                    </li>
+                </ul>
+            </article>
+        </section>
+    </main>
+
+    <button id="back-to-top-btn" title="ページ先頭に戻る">▲</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const mainNav = document.getElementById('main-nav');
+            const body = document.body;
+            const navLinks = document.querySelectorAll('.nav-list a');
+            const newTabCheckbox = document.getElementById('new-tab-checkbox');
+            const submenuToggle = document.querySelector('.submenu-toggle');
+            const backToTopBtn = document.getElementById('back-to-top-btn');
+
+            menuToggle.addEventListener('click', () => {
+                const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+                menuToggle.setAttribute('aria-expanded', !isExpanded);
+                mainNav.classList.toggle('is-open');
+                body.classList.toggle('menu-open');
+            });
+
+            submenuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const submenu = document.getElementById('facts-submenu');
+                const isExpanded = submenuToggle.getAttribute('aria-expanded') === 'true';
+                submenuToggle.setAttribute('aria-expanded', !isExpanded);
+                submenu.classList.toggle('is-open');
+            });
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    if (newTabCheckbox.checked && link.parentElement.parentElement !== document.getElementById('facts-submenu')) {
+                        event.preventDefault();
+                        window.open(link.href, '_blank');
+                    }
+                    setTimeout(() => {
+                        if (mainNav.classList.contains('is-open')) {
+                            menuToggle.click();
+                        }
+                    }, 100);
+                });
+            });
+
+            const showContent = () => {
+                const hash = window.location.hash || '#facts';
+                let targetElement;
+                try {
+                    targetElement = document.querySelector(hash);
+                } catch(e) {
+                    targetElement = document.getElementById('facts');
+                }
+
+                if (targetElement) {
+                    const parentSection = targetElement.closest('.content-section');
+                    if (parentSection) {
+                        document.querySelectorAll('.content-section').forEach(section => {
+                            section.classList.remove('is-active');
+                        });
+                        parentSection.classList.add('is-active');
+                    }
+                } else {
+                    document.querySelectorAll('.content-section').forEach(s => s.classList.remove('is-active'));
+                    document.getElementById('facts').classList.add('is-active');
+                }
+            };
+            
+            showContent();
+            window.addEventListener('hashchange', showContent, false);
+
+            const scrollFunction = () => {
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    backToTopBtn.style.display = "block";
+                } else {
+                    backToTopBtn.style.display = "none";
+                }
+            };
+
+            window.onscroll = () => scrollFunction();
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
